@@ -11,8 +11,8 @@ package system
 
 import (
 	"github.com/google/wire"
-	"vine-cms-rpc/internal/system/biz"
-	"vine-cms-rpc/internal/system/service"
+	"vine-template-rpc/internal/system/biz"
+	"vine-template-rpc/internal/system/service"
 )
 
 // SystemProviderSet is service providers.

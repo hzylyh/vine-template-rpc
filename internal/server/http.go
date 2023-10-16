@@ -4,9 +4,9 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/middleware/recovery"
 	"github.com/go-kratos/kratos/v2/transport/http"
-	systemV1 "vine-cms-rpc/api/system/v1"
-	"vine-cms-rpc/internal/conf"
-	systemService "vine-cms-rpc/internal/system/service"
+	systemV1 "vine-template-rpc/api/system/v1"
+	"vine-template-rpc/internal/conf"
+	systemService "vine-template-rpc/internal/system/service"
 )
 
 // NewHTTPServer new an HTTP server.

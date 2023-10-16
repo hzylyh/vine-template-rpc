@@ -9,10 +9,10 @@ package main
 import (
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/log"
-	"vine-cms-rpc/internal/conf"
-	"vine-cms-rpc/internal/server"
-	"vine-cms-rpc/internal/system/biz"
-	"vine-cms-rpc/internal/system/service"
+	"vine-template-rpc/internal/conf"
+	"vine-template-rpc/internal/server"
+	"vine-template-rpc/internal/system/biz"
+	"vine-template-rpc/internal/system/service"
 )
 
 import (

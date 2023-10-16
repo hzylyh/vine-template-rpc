@@ -10,8 +10,8 @@
 package service
 
 import (
-	v1 "vine-cms-rpc/api/system/v1"
-	"vine-cms-rpc/internal/system/biz"
+	v1 "vine-template-rpc/api/system/v1"
+	"vine-template-rpc/internal/system/biz"
 )
 
 // SystemService is a greeter service.

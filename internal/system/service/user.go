@@ -11,7 +11,7 @@ package service
 
 import (
 	"context"
-	v1 "vine-cms-rpc/api/system/v1"
+	v1 "vine-template-rpc/api/system/v1"
 )
 
 func (s *SystemService) CreateSystem(ctx context.Context, request *v1.CreateSystemRequest) (*v1.CreateSystemReply, error) {

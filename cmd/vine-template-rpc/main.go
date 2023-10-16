@@ -4,7 +4,7 @@ import (
 	"flag"
 	"os"
 
-	"vine-cms-rpc/internal/conf"
+	"vine-template-rpc/internal/conf"
 
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/config"
