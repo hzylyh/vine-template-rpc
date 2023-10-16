@@ -1,4 +1,4 @@
-module vine-cms-rpc
+module vine-template-rpc
 
 go 1.19
 
