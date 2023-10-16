@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package api.system.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "vine-template-rpc/api/system/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.system.v1";
+
+service System {
+	rpc CreateSystem (CreateSystemRequest) returns (CreateSystemReply) {
+		option (google.api.http) = {
+			get: "/system/user"
+		};
+	};
+	rpc UpdateSystem (UpdateSystemRequest) returns (UpdateSystemReply);
+	rpc DeleteSystem (DeleteSystemRequest) returns (DeleteSystemReply);
+	rpc GetSystem (GetSystemRequest) returns (GetSystemReply);
+	rpc ListSystem (ListSystemRequest) returns (ListSystemReply);
+}
+
+message CreateSystemRequest {}
+message CreateSystemReply {
+	string name = 1;
+}
+
+message UpdateSystemRequest {}
+message UpdateSystemReply {}
+
+message DeleteSystemRequest {}
+message DeleteSystemReply {}
+
+message GetSystemRequest {}
+message GetSystemReply {}
+
+message ListSystemRequest {}
+message ListSystemReply {}

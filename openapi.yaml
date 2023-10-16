@@ -1,0 +1,29 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: System API
+    version: 0.0.1
+paths:
+    /system/user:
+        get:
+            tags:
+                - System
+            operationId: System_CreateSystem
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.CreateSystemReply'
+components:
+    schemas:
+        api.system.v1.CreateSystemReply:
+            type: object
+            properties:
+                name:
+                    type: string
+tags:
+    - name: System
