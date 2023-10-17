@@ -7,7 +7,8 @@ go install github.com/go-kratos/kratos/cmd/kratos/v2@latest
 ## Create a service
 ```
 # Create a template project
-kratos new server
+# kratos new server
+kratos new vine-cms-rpc -r https://github.com/hzylyh/vine-template-rpc.git
 
 cd server
 # Add a proto template
