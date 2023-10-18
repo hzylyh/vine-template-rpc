@@ -6,9 +6,9 @@
 package main
 
 import (
-	"vine-cms-rpc/internal/conf"
-	"vine-cms-rpc/internal/server"
-	systemService "vine-cms-rpc/internal/system"
+	"vine-template-rpc/internal/conf"
+	"vine-template-rpc/internal/server"
+	systemService "vine-template-rpc/internal/system"
 
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/log"

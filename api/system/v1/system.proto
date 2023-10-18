@@ -9,6 +9,155 @@ option java_multiple_files = true;
 option java_package = "api.system.v1";
 
 service System {
+	// -------- auth 认证相关 --------
+	// ---- login 登陆 ----
+	rpc Login (LoginRequest) returns (LoginReply) {
+		option (google.api.http) = {
+			get: "/auth/login"
+		};
+	};
+	// ---- logout 登出 ----
+	rpc Logout (LogoutRequest) returns (LogoutReply) {
+		option (google.api.http) = {
+			get: "/auth/logout"
+		};
+	};
+	// ---- register 注册 ----
+	rpc Register (RegisterRequest) returns (RegisterReply) {
+		option (google.api.http) = {
+			get: "/auth/register"
+		};
+	};
+
+	// -------- user 用户相关 --------
+	// ---- add 新增用户信息 ----
+	rpc AddUser (AddUserRequest) returns (AddUserReply) {
+		option (google.api.http) = {
+			get: "/user/add"
+		};
+	};
+	// ---- update 修改用户信息 ----
+	rpc UpdateUser (UpdateUserRequest) returns (UpdateUserReply) {
+		option (google.api.http) = {
+			get: "/user/update"
+		};
+	};
+	// ---- delete 删除用户信息 ----
+	rpc DeleteUser (DeleteUserRequest) returns (DeleteUserReply) {
+		option (google.api.http) = {
+			get: "/user/delete"
+		};
+	};
+	// ---- get 获取用户详情 ----
+	rpc GetUser (GetUserRequest) returns (GetUserReply) {
+		option (google.api.http) = {
+			get: "/user/detail"
+		};
+	};
+	// ---- list 获取用户列表 ----
+	rpc ListUser (ListUserRequest) returns (ListUserReply) {
+		option (google.api.http) = {
+			get: "/user/list"
+		};
+	};
+
+	// -------- role 角色相关 --------
+	// ---- add 新增角色信息 ----
+	rpc AddRole (AddRoleRequest) returns (AddRoleReply) {
+		option (google.api.http) = {
+			get: "/role/add"
+		};
+	};
+	// ---- update 修改角色信息 ----
+	rpc UpdateRole (UpdateRoleRequest) returns (UpdateRoleReply) {
+		option (google.api.http) = {
+			get: "/role/update"
+		};
+	};
+	// ---- delete 删除角色信息 ----
+	rpc DeleteRole (DeleteRoleRequest) returns (DeleteRoleReply) {
+		option (google.api.http) = {
+			get: "/role/delete"
+		};
+	};
+	// ---- get 获取角色详情 ----
+	rpc GetRole (GetRoleRequest) returns (GetRoleReply) {
+		option (google.api.http) = {
+			get: "/role/detail"
+		};
+	};
+	// ---- list 获取角色列表 ----
+	rpc ListRole (ListRoleRequest) returns (ListRoleReply) {
+		option (google.api.http) = {
+			get: "/role/list"
+		};
+	};
+
+	// -------- dept 部门相关 --------
+	// ---- add 新增部门信息 ----
+	rpc AddDept (AddDeptRequest) returns (AddDeptReply) {
+		option (google.api.http) = {
+			get: "/dept/add"
+		};
+	};
+	// ---- update 修改部门信息 ----
+	rpc UpdateDept (UpdateDeptRequest) returns (UpdateDeptReply) {
+		option (google.api.http) = {
+			get: "/dept/update"
+		};
+	};
+
+	// ---- delete 删除部门信息 ----
+	rpc DeleteDept (DeleteDeptRequest) returns (DeleteDeptReply) {
+		option (google.api.http) = {
+			get: "/dept/delete"
+		};
+	};
+	// ---- get 获取部门详情 ----
+	rpc GetDept (GetDeptRequest) returns (GetDeptReply) {
+		option (google.api.http) = {
+			get: "/dept/detail"
+		};
+	};
+	// ---- list 获取部门列表 ----
+	rpc ListDept (ListDeptRequest) returns (ListDeptReply) {
+		option (google.api.http) = {
+			get: "/dept/list"
+		};
+	};
+
+	// -------- permission --------
+	// ---- add 权限新增 ----
+	rpc AddPerm (AddPermRequest) returns (AddPermReply) {
+		option (google.api.http) = {
+			get: "/perm/add"
+		};
+	};
+	// ---- update 权限修改 ----
+	rpc UpdatePerm (UpdatePermRequest) returns (UpdatePermReply) {
+		option (google.api.http) = {
+			get: "/perm/update"
+		};
+	};
+	// ---- delete 权限删除 ----
+	rpc DeletePerm (DeletePermRequest) returns (DeletePermReply) {
+		option (google.api.http) = {
+			get: "/perm/delete"
+		};
+	};
+	// ---- get 权限详情 ----
+	rpc GetPerm (GetPermRequest) returns (GetPermReply) {
+		option (google.api.http) = {
+			get: "/perm/detail"
+		};
+	};
+	// ---- list 权限列表 ----
+	rpc ListPerm (ListPermRequest) returns (ListPermReply) {
+		option (google.api.http) = {
+			get: "/perm/list"
+		};
+	};
+
 	rpc CreateSystem (CreateSystemRequest) returns (CreateSystemReply) {
 		option (google.api.http) = {
 			get: "/system/user"
@@ -18,6 +167,173 @@ service System {
 	rpc DeleteSystem (DeleteSystemRequest) returns (DeleteSystemReply);
 	rpc GetSystem (GetSystemRequest) returns (GetSystemReply);
 	rpc ListSystem (ListSystemRequest) returns (ListSystemReply);
+}
+
+// ------- auth --------
+message LoginRequest {
+	string username = 1;
+	string password = 2;
+}
+message LoginReply {
+
+}
+
+message LogoutRequest {
+
+}
+message LogoutReply {
+
+}
+
+message RegisterRequest {
+
+}
+message RegisterReply {
+
+}
+
+// -------- user --------
+message AddUserRequest {
+
+}
+message AddUserReply {
+
+}
+
+message UpdateUserRequest {
+
+}
+message UpdateUserReply {
+
+}
+
+message DeleteUserRequest {
+
+}
+message DeleteUserReply {
+
+}
+
+message GetUserRequest {
+
+}
+message GetUserReply {
+
+}
+
+message ListUserRequest {
+
+}
+message ListUserReply {
+
+}
+
+// -------- role --------
+message AddRoleRequest {
+
+}
+message AddRoleReply {
+
+}
+
+message UpdateRoleRequest {
+
+}
+message UpdateRoleReply {
+
+}
+
+message DeleteRoleRequest {
+
+}
+message DeleteRoleReply {
+
+}
+
+message GetRoleRequest {
+
+}
+message GetRoleReply {
+
+}
+
+message ListRoleRequest {
+
+}
+message ListRoleReply {
+
+}
+
+// -------- dept --------
+message AddDeptRequest {
+
+}
+message AddDeptReply {
+
+}
+
+message UpdateDeptRequest {
+
+}
+message UpdateDeptReply {
+
+}
+
+message DeleteDeptRequest {
+
+}
+message DeleteDeptReply {
+
+}
+
+message GetDeptRequest {
+
+}
+message GetDeptReply {
+
+}
+
+message ListDeptRequest {
+
+}
+message ListDeptReply {
+
+}
+
+// -------- permission --------
+message AddPermRequest {
+
+}
+message AddPermReply {
+
+}
+
+message UpdatePermRequest {
+
+}
+message UpdatePermReply {
+
+}
+
+message DeletePermRequest {
+
+}
+message DeletePermReply {
+
+}
+
+message GetPermRequest {
+
+}
+message GetPermReply {
+
+}
+
+message ListPermRequest {
+
+}
+message ListPermReply {
+	
 }
 
 message CreateSystemRequest {}

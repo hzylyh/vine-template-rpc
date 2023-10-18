@@ -6,6 +6,257 @@ info:
     title: System API
     version: 0.0.1
 paths:
+    /auth/login:
+        get:
+            tags:
+                - System
+            description: |-
+                -------- auth 认证相关 --------
+                 ---- login 登陆 ----
+            operationId: System_Login
+            parameters:
+                - name: username
+                  in: query
+                  schema:
+                    type: string
+                - name: password
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.LoginReply'
+    /auth/logout:
+        get:
+            tags:
+                - System
+            description: '---- logout 登出 ----'
+            operationId: System_Logout
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.LogoutReply'
+    /auth/register:
+        get:
+            tags:
+                - System
+            description: '---- register 注册 ----'
+            operationId: System_Register
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.RegisterReply'
+    /dept/add:
+        get:
+            tags:
+                - System
+            description: |-
+                -------- dept 部门相关 --------
+                 ---- add 新增部门信息 ----
+            operationId: System_AddDept
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.AddDeptReply'
+    /dept/delete:
+        get:
+            tags:
+                - System
+            description: '---- delete 删除部门信息 ----'
+            operationId: System_DeleteDept
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.DeleteDeptReply'
+    /dept/detail:
+        get:
+            tags:
+                - System
+            description: '---- get 获取部门详情 ----'
+            operationId: System_GetDept
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.GetDeptReply'
+    /dept/list:
+        get:
+            tags:
+                - System
+            description: '---- list 获取部门列表 ----'
+            operationId: System_ListDept
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.ListDeptReply'
+    /dept/update:
+        get:
+            tags:
+                - System
+            description: '---- update 修改部门信息 ----'
+            operationId: System_UpdateDept
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.UpdateDeptReply'
+    /perm/add:
+        get:
+            tags:
+                - System
+            description: |-
+                -------- permission --------
+                 ---- add 权限新增 ----
+            operationId: System_AddPerm
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.AddPermReply'
+    /perm/delete:
+        get:
+            tags:
+                - System
+            description: '---- delete 权限删除 ----'
+            operationId: System_DeletePerm
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.DeletePermReply'
+    /perm/detail:
+        get:
+            tags:
+                - System
+            description: '---- get 权限详情 ----'
+            operationId: System_GetPerm
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.GetPermReply'
+    /perm/list:
+        get:
+            tags:
+                - System
+            description: '---- list 权限列表 ----'
+            operationId: System_ListPerm
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.ListPermReply'
+    /perm/update:
+        get:
+            tags:
+                - System
+            description: '---- update 权限修改 ----'
+            operationId: System_UpdatePerm
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.UpdatePermReply'
+    /role/add:
+        get:
+            tags:
+                - System
+            description: |-
+                -------- role 角色相关 --------
+                 ---- add 新增角色信息 ----
+            operationId: System_AddRole
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.AddRoleReply'
+    /role/delete:
+        get:
+            tags:
+                - System
+            description: '---- delete 删除角色信息 ----'
+            operationId: System_DeleteRole
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.DeleteRoleReply'
+    /role/detail:
+        get:
+            tags:
+                - System
+            description: '---- get 获取角色详情 ----'
+            operationId: System_GetRole
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.GetRoleReply'
+    /role/list:
+        get:
+            tags:
+                - System
+            description: '---- list 获取角色列表 ----'
+            operationId: System_ListRole
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.ListRoleReply'
+    /role/update:
+        get:
+            tags:
+                - System
+            description: '---- update 修改角色信息 ----'
+            operationId: System_UpdateRole
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.UpdateRoleReply'
     /system/user:
         get:
             tags:
@@ -18,12 +269,148 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/api.system.v1.CreateSystemReply'
+    /user/add:
+        get:
+            tags:
+                - System
+            description: |-
+                -------- user 用户相关 --------
+                 ---- add 新增用户信息 ----
+            operationId: System_AddUser
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.AddUserReply'
+    /user/delete:
+        get:
+            tags:
+                - System
+            description: '---- delete 删除用户信息 ----'
+            operationId: System_DeleteUser
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.DeleteUserReply'
+    /user/detail:
+        get:
+            tags:
+                - System
+            description: '---- get 获取用户详情 ----'
+            operationId: System_GetUser
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.GetUserReply'
+    /user/list:
+        get:
+            tags:
+                - System
+            description: '---- list 获取用户列表 ----'
+            operationId: System_ListUser
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.ListUserReply'
+    /user/update:
+        get:
+            tags:
+                - System
+            description: '---- update 修改用户信息 ----'
+            operationId: System_UpdateUser
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.UpdateUserReply'
 components:
     schemas:
+        api.system.v1.AddDeptReply:
+            type: object
+            properties: {}
+        api.system.v1.AddPermReply:
+            type: object
+            properties: {}
+        api.system.v1.AddRoleReply:
+            type: object
+            properties: {}
+        api.system.v1.AddUserReply:
+            type: object
+            properties: {}
         api.system.v1.CreateSystemReply:
             type: object
             properties:
                 name:
                     type: string
+        api.system.v1.DeleteDeptReply:
+            type: object
+            properties: {}
+        api.system.v1.DeletePermReply:
+            type: object
+            properties: {}
+        api.system.v1.DeleteRoleReply:
+            type: object
+            properties: {}
+        api.system.v1.DeleteUserReply:
+            type: object
+            properties: {}
+        api.system.v1.GetDeptReply:
+            type: object
+            properties: {}
+        api.system.v1.GetPermReply:
+            type: object
+            properties: {}
+        api.system.v1.GetRoleReply:
+            type: object
+            properties: {}
+        api.system.v1.GetUserReply:
+            type: object
+            properties: {}
+        api.system.v1.ListDeptReply:
+            type: object
+            properties: {}
+        api.system.v1.ListPermReply:
+            type: object
+            properties: {}
+        api.system.v1.ListRoleReply:
+            type: object
+            properties: {}
+        api.system.v1.ListUserReply:
+            type: object
+            properties: {}
+        api.system.v1.LoginReply:
+            type: object
+            properties: {}
+        api.system.v1.LogoutReply:
+            type: object
+            properties: {}
+        api.system.v1.RegisterReply:
+            type: object
+            properties: {}
+        api.system.v1.UpdateDeptReply:
+            type: object
+            properties: {}
+        api.system.v1.UpdatePermReply:
+            type: object
+            properties: {}
+        api.system.v1.UpdateRoleReply:
+            type: object
+            properties: {}
+        api.system.v1.UpdateUserReply:
+            type: object
+            properties: {}
 tags:
     - name: System
