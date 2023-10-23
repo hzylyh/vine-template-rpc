@@ -12,16 +12,16 @@ package biz
 import (
 	"context"
 	"github.com/go-kratos/kratos/v2/log"
+	"math/rand"
 	v1 "vine-template-rpc/api/system/v1"
-	"vine-template-rpc/internal/system/data/ent"
 )
 
 type UserRepo interface {
-	Add(ctx context.Context, user *ent.User) error
-	Update(ctx context.Context, user *ent.User) error
-	Delete(ctx context.Context, user *ent.User) error
-	Get(ctx context.Context, user *ent.User) (*ent.User, error)
-	List(ctx context.Context, user *ent.User) ([]*ent.User, error)
+	Add(ctx context.Context, user *User) (*User, error)
+	Update(ctx context.Context, user *User) error
+	Delete(ctx context.Context, user *User) error
+	Get(ctx context.Context, user *User) (*User, error)
+	List(ctx context.Context, user *User) ([]*User, error)
 }
 
 type UserBiz struct {
@@ -29,6 +29,13 @@ type UserBiz struct {
 	log  *log.Helper
 }
 
+type User struct {
+	Id       int64
+	Username string
+	Password string
+}
+
+// NewUserBiz .
 func NewUserBiz(repo UserRepo, logger log.Logger) *UserBiz {
 	return &UserBiz{
 		repo: repo,
@@ -37,7 +44,19 @@ func NewUserBiz(repo UserRepo, logger log.Logger) *UserBiz {
 }
 
 func (u *UserBiz) AddUser(ctx context.Context, request *v1.AddUserRequest) (*v1.AddUserReply, error) {
-	return &v1.AddUserReply{}, nil
+	user, err := u.repo.Add(ctx, &User{
+		Id:       rand.Int63(),
+		Username: request.Username,
+		Password: request.Password,
+	})
+	if err != nil {
+		u.log.Errorf("add user error: %v", err)
+		return nil, err
+	}
+	return &v1.AddUserReply{
+		Id:       user.Id,
+		Username: user.Username,
+	}, nil
 }
 
 func (u *UserBiz) UpdateUser(ctx context.Context, request *v1.UpdateUserRequest) (*v1.UpdateUserReply, error) {

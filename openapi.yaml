@@ -258,42 +258,19 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/api.system.v1.UpdateRoleReply'
     /user/add:
-        get:
+        post:
             tags:
                 - System
             description: |-
                 -------- user 用户相关 --------
                  ---- add 新增用户信息 ----
             operationId: System_AddUser
-            parameters:
-                - name: username
-                  in: query
-                  schema:
-                    type: string
-                - name: password
-                  in: query
-                  schema:
-                    type: string
-                - name: nickname
-                  in: query
-                  schema:
-                    type: string
-                - name: email
-                  in: query
-                  schema:
-                    type: string
-                - name: mobile
-                  in: query
-                  schema:
-                    type: string
-                - name: avatar
-                  in: query
-                  schema:
-                    type: string
-                - name: status
-                  in: query
-                  schema:
-                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.AddUserRequest'
+                required: true
             responses:
                 "200":
                     description: OK
@@ -366,7 +343,29 @@ components:
             properties: {}
         api.system.v1.AddUserReply:
             type: object
-            properties: {}
+            properties:
+                id:
+                    type: string
+                username:
+                    type: string
+        api.system.v1.AddUserRequest:
+            type: object
+            properties:
+                username:
+                    type: string
+                password:
+                    type: string
+                nickname:
+                    type: string
+                email:
+                    type: string
+                mobile:
+                    type: string
+                avatar:
+                    type: string
+                status:
+                    type: string
+            description: '-------- user --------'
         api.system.v1.DeleteDeptReply:
             type: object
             properties: {}

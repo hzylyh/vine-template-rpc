@@ -13,7 +13,6 @@ import (
 	"context"
 	"github.com/go-kratos/kratos/v2/log"
 	"vine-template-rpc/internal/system/biz"
-	"vine-template-rpc/internal/system/data/ent"
 )
 
 type userRepo struct {
@@ -21,28 +20,37 @@ type userRepo struct {
 	log  *log.Helper
 }
 
-func (u *userRepo) Add(ctx context.Context, user *ent.User) error {
-	//TODO implement me
-	u.data.db.User.Create()
-	return nil
+func (u *userRepo) Add(ctx context.Context, user *biz.User) (*biz.User, error) {
+	save, err := u.data.db.User.
+		Create().
+		SetUsername(user.Username).
+		SetPassword(user.Password).
+		Save(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return &biz.User{
+		Id:       save.ID,
+		Username: save.Username,
+	}, nil
 }
 
-func (u *userRepo) Update(ctx context.Context, user *ent.User) error {
+func (u *userRepo) Update(ctx context.Context, user *biz.User) error {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (u *userRepo) Delete(ctx context.Context, user *ent.User) error {
+func (u *userRepo) Delete(ctx context.Context, user *biz.User) error {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (u *userRepo) Get(ctx context.Context, user *ent.User) (*ent.User, error) {
+func (u *userRepo) Get(ctx context.Context, user *biz.User) (*biz.User, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (u *userRepo) List(ctx context.Context, user *ent.User) ([]*ent.User, error) {
+func (u *userRepo) List(ctx context.Context, user *biz.User) ([]*biz.User, error) {
 	//TODO implement me
 	panic("implement me")
 }

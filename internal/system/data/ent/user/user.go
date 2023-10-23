@@ -11,8 +11,8 @@ const (
 	Label = "user"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
-	// FieldName holds the string denoting the name field in the database.
-	FieldName = "name"
+	// FieldUsername holds the string denoting the username field in the database.
+	FieldUsername = "username"
 	// FieldPhone holds the string denoting the phone field in the database.
 	FieldPhone = "phone"
 	// FieldPassword holds the string denoting the password field in the database.
@@ -36,7 +36,7 @@ const (
 // Columns holds all SQL columns for user fields.
 var Columns = []string{
 	FieldID,
-	FieldName,
+	FieldUsername,
 	FieldPhone,
 	FieldPassword,
 	FieldAvatar,
@@ -58,12 +58,6 @@ func ValidColumn(column string) bool {
 }
 
 var (
-	// NameValidator is a validator for the "name" field. It is called by the builders before save.
-	NameValidator func(string) error
-	// PhoneValidator is a validator for the "phone" field. It is called by the builders before save.
-	PhoneValidator func(string) error
-	// PasswordValidator is a validator for the "password" field. It is called by the builders before save.
-	PasswordValidator func(string) error
 	// DefaultStatus holds the default value on creation for the "status" field.
 	DefaultStatus int
 )
@@ -76,9 +70,9 @@ func ByID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldID, opts...).ToFunc()
 }
 
-// ByName orders the results by the name field.
-func ByName(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldName, opts...).ToFunc()
+// ByUsername orders the results by the username field.
+func ByUsername(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldUsername, opts...).ToFunc()
 }
 
 // ByPhone orders the results by the phone field.

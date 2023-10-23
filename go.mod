@@ -5,6 +5,7 @@ go 1.19
 require (
 	entgo.io/ent v0.12.4
 	github.com/go-kratos/kratos/v2 v2.7.0
+	github.com/go-sql-driver/mysql v1.7.1
 	github.com/google/wire v0.5.0
 	go.uber.org/automaxprocs v1.5.1
 	google.golang.org/genproto/googleapis/api v0.0.0-20230629202037-9506855d4529
@@ -22,7 +23,6 @@ require (
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-openapi/inflect v0.19.0 // indirect
 	github.com/go-playground/form/v4 v4.2.0 // indirect
-	github.com/go-sql-driver/mysql v1.7.1 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/google/go-cmp v0.5.9 // indirect
 	github.com/google/subcommands v1.0.1 // indirect

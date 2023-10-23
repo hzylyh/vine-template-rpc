@@ -33,7 +33,8 @@ service System {
 	// ---- add 新增用户信息 ----
 	rpc AddUser (AddUserRequest) returns (AddUserReply) {
 		option (google.api.http) = {
-			get: "/user/add"
+			post: "/user/add",
+			body: "*" // body: "username,password,nickname,email,mobile,avatar,status"
 		};
 	};
 	// ---- update 修改用户信息 ----
@@ -193,7 +194,8 @@ message AddUserRequest {
 	string status = 7;
 }
 message AddUserReply {
-
+	int64 id = 1;
+	string username = 2;
 }
 
 message UpdateUserRequest {

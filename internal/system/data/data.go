@@ -12,7 +12,6 @@ package data
 import (
 	"context"
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/google/wire"
 	"vine-template-rpc/internal/conf"
 	"vine-template-rpc/internal/system/data/ent"
 	"vine-template-rpc/internal/system/data/ent/migrate"
@@ -20,16 +19,12 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-// ProviderSet is data providers.
-var ProviderSet = wire.NewSet(
-	NewData,
-	NewEntClient,
-	NewUserRepo,
-	//NewRedisCmd,
-	//NewUserRepo,
-	//NewCardRepo,
-	//NewAddressRepo,
-)
+//// ProviderSet is data providers.
+//var ProviderSet = wire.NewSet(
+//	NewData,
+//	NewEntClient,
+//	NewUserRepo,
+//)
 
 // Data .
 type Data struct {

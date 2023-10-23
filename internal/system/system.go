@@ -20,5 +20,7 @@ import (
 var SystemProviderSet = wire.NewSet(
 	service.NewSystemService,
 	biz.NewUserBiz,
-	data.ProviderSet,
+	data.NewData,
+	data.NewEntClient,
+	data.NewUserRepo,
 )

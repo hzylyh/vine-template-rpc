@@ -31,8 +31,7 @@ func (s *SystemService) AddUser(ctx context.Context, request *v1.AddUserRequest)
 	//}
 	//
 	//fmt.Printf("Content: %s", r.Name)
-	s.ub.AddUser(ctx, request)
-	return &v1.AddUserReply{}, nil
+	return s.ub.AddUser(ctx, request)
 }
 
 func (s *SystemService) UpdateUser(ctx context.Context, request *v1.UpdateUserRequest) (*v1.UpdateUserReply, error) {
