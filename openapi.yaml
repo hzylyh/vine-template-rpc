@@ -257,18 +257,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/api.system.v1.UpdateRoleReply'
-    /system/user:
-        get:
-            tags:
-                - System
-            operationId: System_CreateSystem
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.system.v1.CreateSystemReply'
     /user/add:
         get:
             tags:
@@ -277,6 +265,35 @@ paths:
                 -------- user 用户相关 --------
                  ---- add 新增用户信息 ----
             operationId: System_AddUser
+            parameters:
+                - name: username
+                  in: query
+                  schema:
+                    type: string
+                - name: password
+                  in: query
+                  schema:
+                    type: string
+                - name: nickname
+                  in: query
+                  schema:
+                    type: string
+                - name: email
+                  in: query
+                  schema:
+                    type: string
+                - name: mobile
+                  in: query
+                  schema:
+                    type: string
+                - name: avatar
+                  in: query
+                  schema:
+                    type: string
+                - name: status
+                  in: query
+                  schema:
+                    type: string
             responses:
                 "200":
                     description: OK
@@ -350,11 +367,6 @@ components:
         api.system.v1.AddUserReply:
             type: object
             properties: {}
-        api.system.v1.CreateSystemReply:
-            type: object
-            properties:
-                name:
-                    type: string
         api.system.v1.DeleteDeptReply:
             type: object
             properties: {}

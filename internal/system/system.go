@@ -12,6 +12,7 @@ package system
 import (
 	"github.com/google/wire"
 	"vine-template-rpc/internal/system/biz"
+	"vine-template-rpc/internal/system/data"
 	"vine-template-rpc/internal/system/service"
 )
 
@@ -19,4 +20,5 @@ import (
 var SystemProviderSet = wire.NewSet(
 	service.NewSystemService,
 	biz.NewUserBiz,
+	data.ProviderSet,
 )

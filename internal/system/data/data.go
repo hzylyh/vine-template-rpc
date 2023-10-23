@@ -16,12 +16,15 @@ import (
 	"vine-template-rpc/internal/conf"
 	"vine-template-rpc/internal/system/data/ent"
 	"vine-template-rpc/internal/system/data/ent/migrate"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 // ProviderSet is data providers.
 var ProviderSet = wire.NewSet(
 	NewData,
 	NewEntClient,
+	NewUserRepo,
 	//NewRedisCmd,
 	//NewUserRepo,
 	//NewCardRepo,

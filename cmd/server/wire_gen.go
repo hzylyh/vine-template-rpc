@@ -12,6 +12,7 @@ import (
 	"vine-template-rpc/internal/conf"
 	"vine-template-rpc/internal/server"
 	"vine-template-rpc/internal/system/biz"
+	"vine-template-rpc/internal/system/data"
 	"vine-template-rpc/internal/system/service"
 )
 
@@ -22,12 +23,19 @@ import (
 // Injectors from wire.go:
 
 // wireApp init kratos application.
-func wireApp(confServer *conf.Server, data *conf.Data, logger log.Logger) (*kratos.App, func(), error) {
-	userBiz := biz.NewUserBiz()
+func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*kratos.App, func(), error) {
+	client := data.NewEntClient(confData, logger)
+	dataData, cleanup, err := data.NewData(client, logger)
+	if err != nil {
+		return nil, nil, err
+	}
+	userRepo := data.NewUserRepo(dataData, logger)
+	userBiz := biz.NewUserBiz(userRepo, logger)
 	systemService := service.NewSystemService(userBiz)
 	grpcServer := server.NewGRPCServer(confServer, systemService, logger)
 	httpServer := server.NewHTTPServer(confServer, systemService, logger)
 	app := newApp(logger, grpcServer, httpServer)
 	return app, func() {
+		cleanup()
 	}, nil
 }

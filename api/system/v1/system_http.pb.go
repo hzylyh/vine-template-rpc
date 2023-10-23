@@ -23,7 +23,6 @@ const OperationSystemAddDept = "/api.system.v1.System/AddDept"
 const OperationSystemAddPerm = "/api.system.v1.System/AddPerm"
 const OperationSystemAddRole = "/api.system.v1.System/AddRole"
 const OperationSystemAddUser = "/api.system.v1.System/AddUser"
-const OperationSystemCreateSystem = "/api.system.v1.System/CreateSystem"
 const OperationSystemDeleteDept = "/api.system.v1.System/DeleteDept"
 const OperationSystemDeletePerm = "/api.system.v1.System/DeletePerm"
 const OperationSystemDeleteRole = "/api.system.v1.System/DeleteRole"
@@ -57,7 +56,6 @@ type SystemHTTPServer interface {
 	// AddUser -------- user 用户相关 --------
 	// ---- add 新增用户信息 ----
 	AddUser(context.Context, *AddUserRequest) (*AddUserReply, error)
-	CreateSystem(context.Context, *CreateSystemRequest) (*CreateSystemReply, error)
 	// DeleteDept ---- delete 删除部门信息 ----
 	DeleteDept(context.Context, *DeleteDeptRequest) (*DeleteDeptReply, error)
 	// DeletePerm ---- delete 权限删除 ----
@@ -124,7 +122,6 @@ func RegisterSystemHTTPServer(s *http.Server, srv SystemHTTPServer) {
 	r.GET("/perm/delete", _System_DeletePerm0_HTTP_Handler(srv))
 	r.GET("/perm/detail", _System_GetPerm0_HTTP_Handler(srv))
 	r.GET("/perm/list", _System_ListPerm0_HTTP_Handler(srv))
-	r.GET("/system/user", _System_CreateSystem0_HTTP_Handler(srv))
 }
 
 func _System_Login0_HTTP_Handler(srv SystemHTTPServer) func(ctx http.Context) error {
@@ -564,31 +561,11 @@ func _System_ListPerm0_HTTP_Handler(srv SystemHTTPServer) func(ctx http.Context)
 	}
 }
 
-func _System_CreateSystem0_HTTP_Handler(srv SystemHTTPServer) func(ctx http.Context) error {
-	return func(ctx http.Context) error {
-		var in CreateSystemRequest
-		if err := ctx.BindQuery(&in); err != nil {
-			return err
-		}
-		http.SetOperation(ctx, OperationSystemCreateSystem)
-		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.CreateSystem(ctx, req.(*CreateSystemRequest))
-		})
-		out, err := h(ctx, &in)
-		if err != nil {
-			return err
-		}
-		reply := out.(*CreateSystemReply)
-		return ctx.Result(200, reply)
-	}
-}
-
 type SystemHTTPClient interface {
 	AddDept(ctx context.Context, req *AddDeptRequest, opts ...http.CallOption) (rsp *AddDeptReply, err error)
 	AddPerm(ctx context.Context, req *AddPermRequest, opts ...http.CallOption) (rsp *AddPermReply, err error)
 	AddRole(ctx context.Context, req *AddRoleRequest, opts ...http.CallOption) (rsp *AddRoleReply, err error)
 	AddUser(ctx context.Context, req *AddUserRequest, opts ...http.CallOption) (rsp *AddUserReply, err error)
-	CreateSystem(ctx context.Context, req *CreateSystemRequest, opts ...http.CallOption) (rsp *CreateSystemReply, err error)
 	DeleteDept(ctx context.Context, req *DeleteDeptRequest, opts ...http.CallOption) (rsp *DeleteDeptReply, err error)
 	DeletePerm(ctx context.Context, req *DeletePermRequest, opts ...http.CallOption) (rsp *DeletePermReply, err error)
 	DeleteRole(ctx context.Context, req *DeleteRoleRequest, opts ...http.CallOption) (rsp *DeleteRoleReply, err error)
@@ -662,19 +639,6 @@ func (c *SystemHTTPClientImpl) AddUser(ctx context.Context, in *AddUserRequest, 
 	pattern := "/user/add"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationSystemAddUser))
-	opts = append(opts, http.PathTemplate(pattern))
-	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return &out, err
-}
-
-func (c *SystemHTTPClientImpl) CreateSystem(ctx context.Context, in *CreateSystemRequest, opts ...http.CallOption) (*CreateSystemReply, error) {
-	var out CreateSystemReply
-	pattern := "/system/user"
-	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation(OperationSystemCreateSystem))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {

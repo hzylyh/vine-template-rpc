@@ -19,34 +19,29 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	System_Login_FullMethodName        = "/api.system.v1.System/Login"
-	System_Logout_FullMethodName       = "/api.system.v1.System/Logout"
-	System_Register_FullMethodName     = "/api.system.v1.System/Register"
-	System_AddUser_FullMethodName      = "/api.system.v1.System/AddUser"
-	System_UpdateUser_FullMethodName   = "/api.system.v1.System/UpdateUser"
-	System_DeleteUser_FullMethodName   = "/api.system.v1.System/DeleteUser"
-	System_GetUser_FullMethodName      = "/api.system.v1.System/GetUser"
-	System_ListUser_FullMethodName     = "/api.system.v1.System/ListUser"
-	System_AddRole_FullMethodName      = "/api.system.v1.System/AddRole"
-	System_UpdateRole_FullMethodName   = "/api.system.v1.System/UpdateRole"
-	System_DeleteRole_FullMethodName   = "/api.system.v1.System/DeleteRole"
-	System_GetRole_FullMethodName      = "/api.system.v1.System/GetRole"
-	System_ListRole_FullMethodName     = "/api.system.v1.System/ListRole"
-	System_AddDept_FullMethodName      = "/api.system.v1.System/AddDept"
-	System_UpdateDept_FullMethodName   = "/api.system.v1.System/UpdateDept"
-	System_DeleteDept_FullMethodName   = "/api.system.v1.System/DeleteDept"
-	System_GetDept_FullMethodName      = "/api.system.v1.System/GetDept"
-	System_ListDept_FullMethodName     = "/api.system.v1.System/ListDept"
-	System_AddPerm_FullMethodName      = "/api.system.v1.System/AddPerm"
-	System_UpdatePerm_FullMethodName   = "/api.system.v1.System/UpdatePerm"
-	System_DeletePerm_FullMethodName   = "/api.system.v1.System/DeletePerm"
-	System_GetPerm_FullMethodName      = "/api.system.v1.System/GetPerm"
-	System_ListPerm_FullMethodName     = "/api.system.v1.System/ListPerm"
-	System_CreateSystem_FullMethodName = "/api.system.v1.System/CreateSystem"
-	System_UpdateSystem_FullMethodName = "/api.system.v1.System/UpdateSystem"
-	System_DeleteSystem_FullMethodName = "/api.system.v1.System/DeleteSystem"
-	System_GetSystem_FullMethodName    = "/api.system.v1.System/GetSystem"
-	System_ListSystem_FullMethodName   = "/api.system.v1.System/ListSystem"
+	System_Login_FullMethodName      = "/api.system.v1.System/Login"
+	System_Logout_FullMethodName     = "/api.system.v1.System/Logout"
+	System_Register_FullMethodName   = "/api.system.v1.System/Register"
+	System_AddUser_FullMethodName    = "/api.system.v1.System/AddUser"
+	System_UpdateUser_FullMethodName = "/api.system.v1.System/UpdateUser"
+	System_DeleteUser_FullMethodName = "/api.system.v1.System/DeleteUser"
+	System_GetUser_FullMethodName    = "/api.system.v1.System/GetUser"
+	System_ListUser_FullMethodName   = "/api.system.v1.System/ListUser"
+	System_AddRole_FullMethodName    = "/api.system.v1.System/AddRole"
+	System_UpdateRole_FullMethodName = "/api.system.v1.System/UpdateRole"
+	System_DeleteRole_FullMethodName = "/api.system.v1.System/DeleteRole"
+	System_GetRole_FullMethodName    = "/api.system.v1.System/GetRole"
+	System_ListRole_FullMethodName   = "/api.system.v1.System/ListRole"
+	System_AddDept_FullMethodName    = "/api.system.v1.System/AddDept"
+	System_UpdateDept_FullMethodName = "/api.system.v1.System/UpdateDept"
+	System_DeleteDept_FullMethodName = "/api.system.v1.System/DeleteDept"
+	System_GetDept_FullMethodName    = "/api.system.v1.System/GetDept"
+	System_ListDept_FullMethodName   = "/api.system.v1.System/ListDept"
+	System_AddPerm_FullMethodName    = "/api.system.v1.System/AddPerm"
+	System_UpdatePerm_FullMethodName = "/api.system.v1.System/UpdatePerm"
+	System_DeletePerm_FullMethodName = "/api.system.v1.System/DeletePerm"
+	System_GetPerm_FullMethodName    = "/api.system.v1.System/GetPerm"
+	System_ListPerm_FullMethodName   = "/api.system.v1.System/ListPerm"
 )
 
 // SystemClient is the client API for System service.
@@ -104,11 +99,6 @@ type SystemClient interface {
 	GetPerm(ctx context.Context, in *GetPermRequest, opts ...grpc.CallOption) (*GetPermReply, error)
 	// ---- list 权限列表 ----
 	ListPerm(ctx context.Context, in *ListPermRequest, opts ...grpc.CallOption) (*ListPermReply, error)
-	CreateSystem(ctx context.Context, in *CreateSystemRequest, opts ...grpc.CallOption) (*CreateSystemReply, error)
-	UpdateSystem(ctx context.Context, in *UpdateSystemRequest, opts ...grpc.CallOption) (*UpdateSystemReply, error)
-	DeleteSystem(ctx context.Context, in *DeleteSystemRequest, opts ...grpc.CallOption) (*DeleteSystemReply, error)
-	GetSystem(ctx context.Context, in *GetSystemRequest, opts ...grpc.CallOption) (*GetSystemReply, error)
-	ListSystem(ctx context.Context, in *ListSystemRequest, opts ...grpc.CallOption) (*ListSystemReply, error)
 }
 
 type systemClient struct {
@@ -326,51 +316,6 @@ func (c *systemClient) ListPerm(ctx context.Context, in *ListPermRequest, opts .
 	return out, nil
 }
 
-func (c *systemClient) CreateSystem(ctx context.Context, in *CreateSystemRequest, opts ...grpc.CallOption) (*CreateSystemReply, error) {
-	out := new(CreateSystemReply)
-	err := c.cc.Invoke(ctx, System_CreateSystem_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *systemClient) UpdateSystem(ctx context.Context, in *UpdateSystemRequest, opts ...grpc.CallOption) (*UpdateSystemReply, error) {
-	out := new(UpdateSystemReply)
-	err := c.cc.Invoke(ctx, System_UpdateSystem_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *systemClient) DeleteSystem(ctx context.Context, in *DeleteSystemRequest, opts ...grpc.CallOption) (*DeleteSystemReply, error) {
-	out := new(DeleteSystemReply)
-	err := c.cc.Invoke(ctx, System_DeleteSystem_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *systemClient) GetSystem(ctx context.Context, in *GetSystemRequest, opts ...grpc.CallOption) (*GetSystemReply, error) {
-	out := new(GetSystemReply)
-	err := c.cc.Invoke(ctx, System_GetSystem_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *systemClient) ListSystem(ctx context.Context, in *ListSystemRequest, opts ...grpc.CallOption) (*ListSystemReply, error) {
-	out := new(ListSystemReply)
-	err := c.cc.Invoke(ctx, System_ListSystem_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // SystemServer is the server API for System service.
 // All implementations must embed UnimplementedSystemServer
 // for forward compatibility
@@ -426,11 +371,6 @@ type SystemServer interface {
 	GetPerm(context.Context, *GetPermRequest) (*GetPermReply, error)
 	// ---- list 权限列表 ----
 	ListPerm(context.Context, *ListPermRequest) (*ListPermReply, error)
-	CreateSystem(context.Context, *CreateSystemRequest) (*CreateSystemReply, error)
-	UpdateSystem(context.Context, *UpdateSystemRequest) (*UpdateSystemReply, error)
-	DeleteSystem(context.Context, *DeleteSystemRequest) (*DeleteSystemReply, error)
-	GetSystem(context.Context, *GetSystemRequest) (*GetSystemReply, error)
-	ListSystem(context.Context, *ListSystemRequest) (*ListSystemReply, error)
 	mustEmbedUnimplementedSystemServer()
 }
 
@@ -506,21 +446,6 @@ func (UnimplementedSystemServer) GetPerm(context.Context, *GetPermRequest) (*Get
 }
 func (UnimplementedSystemServer) ListPerm(context.Context, *ListPermRequest) (*ListPermReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListPerm not implemented")
-}
-func (UnimplementedSystemServer) CreateSystem(context.Context, *CreateSystemRequest) (*CreateSystemReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateSystem not implemented")
-}
-func (UnimplementedSystemServer) UpdateSystem(context.Context, *UpdateSystemRequest) (*UpdateSystemReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateSystem not implemented")
-}
-func (UnimplementedSystemServer) DeleteSystem(context.Context, *DeleteSystemRequest) (*DeleteSystemReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteSystem not implemented")
-}
-func (UnimplementedSystemServer) GetSystem(context.Context, *GetSystemRequest) (*GetSystemReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetSystem not implemented")
-}
-func (UnimplementedSystemServer) ListSystem(context.Context, *ListSystemRequest) (*ListSystemReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListSystem not implemented")
 }
 func (UnimplementedSystemServer) mustEmbedUnimplementedSystemServer() {}
 
@@ -949,96 +874,6 @@ func _System_ListPerm_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
-func _System_CreateSystem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateSystemRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(SystemServer).CreateSystem(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: System_CreateSystem_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SystemServer).CreateSystem(ctx, req.(*CreateSystemRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _System_UpdateSystem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateSystemRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(SystemServer).UpdateSystem(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: System_UpdateSystem_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SystemServer).UpdateSystem(ctx, req.(*UpdateSystemRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _System_DeleteSystem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteSystemRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(SystemServer).DeleteSystem(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: System_DeleteSystem_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SystemServer).DeleteSystem(ctx, req.(*DeleteSystemRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _System_GetSystem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetSystemRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(SystemServer).GetSystem(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: System_GetSystem_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SystemServer).GetSystem(ctx, req.(*GetSystemRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _System_ListSystem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListSystemRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(SystemServer).ListSystem(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: System_ListSystem_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SystemServer).ListSystem(ctx, req.(*ListSystemRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // System_ServiceDesc is the grpc.ServiceDesc for System service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1137,26 +972,6 @@ var System_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListPerm",
 			Handler:    _System_ListPerm_Handler,
-		},
-		{
-			MethodName: "CreateSystem",
-			Handler:    _System_CreateSystem_Handler,
-		},
-		{
-			MethodName: "UpdateSystem",
-			Handler:    _System_UpdateSystem_Handler,
-		},
-		{
-			MethodName: "DeleteSystem",
-			Handler:    _System_DeleteSystem_Handler,
-		},
-		{
-			MethodName: "GetSystem",
-			Handler:    _System_GetSystem_Handler,
-		},
-		{
-			MethodName: "ListSystem",
-			Handler:    _System_ListSystem_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

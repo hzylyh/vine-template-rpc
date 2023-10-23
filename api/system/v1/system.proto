@@ -157,16 +157,6 @@ service System {
 			get: "/perm/list"
 		};
 	};
-
-	rpc CreateSystem (CreateSystemRequest) returns (CreateSystemReply) {
-		option (google.api.http) = {
-			get: "/system/user"
-		};
-	};
-	rpc UpdateSystem (UpdateSystemRequest) returns (UpdateSystemReply);
-	rpc DeleteSystem (DeleteSystemRequest) returns (DeleteSystemReply);
-	rpc GetSystem (GetSystemRequest) returns (GetSystemReply);
-	rpc ListSystem (ListSystemRequest) returns (ListSystemReply);
 }
 
 // ------- auth --------
@@ -194,7 +184,13 @@ message RegisterReply {
 
 // -------- user --------
 message AddUserRequest {
-
+	string username = 1;
+	string password = 2;
+	string nickname = 3;
+	string email = 4;
+	string mobile = 5;
+	string avatar = 6;
+	string status = 7;
 }
 message AddUserReply {
 
@@ -335,20 +331,3 @@ message ListPermRequest {
 message ListPermReply {
 	
 }
-
-message CreateSystemRequest {}
-message CreateSystemReply {
-	string name = 1;
-}
-
-message UpdateSystemRequest {}
-message UpdateSystemReply {}
-
-message DeleteSystemRequest {}
-message DeleteSystemReply {}
-
-message GetSystemRequest {}
-message GetSystemReply {}
-
-message ListSystemRequest {}
-message ListSystemReply {}
