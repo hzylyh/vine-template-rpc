@@ -31,7 +31,8 @@ func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*
 	}
 	userRepo := data.NewUserRepo(dataData, logger)
 	userBiz := biz.NewUserBiz(userRepo, logger)
-	systemService := service.NewSystemService(userBiz)
+	authBiz := biz.NewAuthBiz(userRepo, logger)
+	systemService := service.NewSystemService(userBiz, authBiz)
 	grpcServer := server.NewGRPCServer(confServer, systemService, logger)
 	httpServer := server.NewHTTPServer(confServer, systemService, logger)
 	app := newApp(logger, grpcServer, httpServer)

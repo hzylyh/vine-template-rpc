@@ -18,11 +18,16 @@ import (
 type SystemService struct {
 	v1.UnimplementedSystemServer
 	ub *biz.UserBiz
+	ab *biz.AuthBiz
 }
 
 // NewSystemService new a greeter service.
-func NewSystemService(ub *biz.UserBiz) *SystemService {
+func NewSystemService(
+	ub *biz.UserBiz,
+	ab *biz.AuthBiz,
+) *SystemService {
 	return &SystemService{
 		ub: ub,
+		ab: ab,
 	}
 }

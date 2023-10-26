@@ -13,7 +13,8 @@ service System {
 	// ---- login 登陆 ----
 	rpc Login (LoginRequest) returns (LoginReply) {
 		option (google.api.http) = {
-			get: "/auth/login"
+			post: "/auth/login"
+			body: "*" // body: "username,password"
 		};
 	};
 	// ---- logout 登出 ----
@@ -166,7 +167,7 @@ message LoginRequest {
 	string password = 2;
 }
 message LoginReply {
-
+	string token = 1;
 }
 
 message LogoutRequest {

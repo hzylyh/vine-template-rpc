@@ -18,8 +18,14 @@ import (
 
 // SystemProviderSet is service providers.
 var SystemProviderSet = wire.NewSet(
+	// service
 	service.NewSystemService,
+
+	// biz
 	biz.NewUserBiz,
+	biz.NewAuthBiz,
+
+	// data
 	data.NewData,
 	data.NewEntClient,
 	data.NewUserRepo,

@@ -7,22 +7,19 @@ info:
     version: 0.0.1
 paths:
     /auth/login:
-        get:
+        post:
             tags:
                 - System
             description: |-
                 -------- auth 认证相关 --------
                  ---- login 登陆 ----
             operationId: System_Login
-            parameters:
-                - name: username
-                  in: query
-                  schema:
-                    type: string
-                - name: password
-                  in: query
-                  schema:
-                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.LoginRequest'
+                required: true
             responses:
                 "200":
                     description: OK
@@ -404,7 +401,17 @@ components:
             properties: {}
         api.system.v1.LoginReply:
             type: object
-            properties: {}
+            properties:
+                token:
+                    type: string
+        api.system.v1.LoginRequest:
+            type: object
+            properties:
+                username:
+                    type: string
+                password:
+                    type: string
+            description: '------- auth --------'
         api.system.v1.LogoutReply:
             type: object
             properties: {}

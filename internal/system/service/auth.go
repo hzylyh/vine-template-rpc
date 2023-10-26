@@ -15,8 +15,7 @@ import (
 )
 
 func (s *SystemService) Login(ctx context.Context, request *v1.LoginRequest) (*v1.LoginReply, error) {
-
-	return &v1.LoginReply{}, nil
+	return s.ab.Login(ctx, request)
 }
 
 func (s *SystemService) Logout(ctx context.Context, request *v1.LogoutRequest) (*v1.LogoutReply, error) {

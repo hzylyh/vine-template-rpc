@@ -13,6 +13,7 @@ import (
 	"context"
 	"github.com/go-kratos/kratos/v2/log"
 	"vine-template-rpc/internal/system/biz"
+	"vine-template-rpc/internal/system/data/ent/user"
 )
 
 type userRepo struct {
@@ -45,9 +46,17 @@ func (u *userRepo) Delete(ctx context.Context, user *biz.User) error {
 	panic("implement me")
 }
 
-func (u *userRepo) Get(ctx context.Context, user *biz.User) (*biz.User, error) {
-	//TODO implement me
-	panic("implement me")
+func (u *userRepo) Get(ctx context.Context, query *biz.User) (*biz.User, error) {
+	info, err := u.data.db.User.Query().Where(user.Username(query.Username)).Only(ctx)
+	if err != nil {
+		u.log.Errorf("get user error: %v", err)
+		return nil, err
+	}
+	return &biz.User{
+		Id:       info.ID,
+		Username: info.Username,
+		Password: info.Password,
+	}, nil
 }
 
 func (u *userRepo) List(ctx context.Context, user *biz.User) ([]*biz.User, error) {
