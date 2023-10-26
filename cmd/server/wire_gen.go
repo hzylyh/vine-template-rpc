@@ -9,6 +9,7 @@ package main
 import (
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/log"
+	"vine-template-rpc/internal/authz"
 	"vine-template-rpc/internal/conf"
 	"vine-template-rpc/internal/server"
 	"vine-template-rpc/internal/system/biz"
@@ -33,8 +34,9 @@ func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*
 	userBiz := biz.NewUserBiz(userRepo, logger)
 	authBiz := biz.NewAuthBiz(userRepo, logger)
 	systemService := service.NewSystemService(userBiz, authBiz)
-	grpcServer := server.NewGRPCServer(confServer, systemService, logger)
-	httpServer := server.NewHTTPServer(confServer, systemService, logger)
+	enforcer := authz.NewAuthz(confData)
+	grpcServer := server.NewGRPCServer(confServer, systemService, logger, enforcer)
+	httpServer := server.NewHTTPServer(confServer, systemService, logger, enforcer)
 	app := newApp(logger, grpcServer, httpServer)
 	return app, func() {
 		cleanup()

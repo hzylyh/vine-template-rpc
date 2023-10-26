@@ -6,6 +6,7 @@
 package main
 
 import (
+	"vine-template-rpc/internal/authz"
 	"vine-template-rpc/internal/conf"
 	"vine-template-rpc/internal/server"
 	systemService "vine-template-rpc/internal/system"
@@ -18,6 +19,7 @@ import (
 // wireApp init kratos application.
 func wireApp(*conf.Server, *conf.Data, log.Logger) (*kratos.App, func(), error) {
 	panic(wire.Build(
+		authz.AuthProviderSet,
 		server.ProviderSet,
 		systemService.SystemProviderSet,
 		newApp,

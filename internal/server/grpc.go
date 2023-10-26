@@ -1,11 +1,13 @@
 package server
 
 import (
+	"github.com/casbin/casbin/v2"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/middleware/recovery"
 	"github.com/go-kratos/kratos/v2/transport/grpc"
 	systemV1 "vine-template-rpc/api/system/v1"
 	"vine-template-rpc/internal/conf"
+	"vine-template-rpc/internal/middleware"
 	systemService "vine-template-rpc/internal/system/service"
 )
 
@@ -14,10 +16,12 @@ func NewGRPCServer(
 	c *conf.Server,
 	system *systemService.SystemService,
 	logger log.Logger,
+	enforcer *casbin.Enforcer,
 ) *grpc.Server {
 	var opts = []grpc.ServerOption{
 		grpc.Middleware(
 			recovery.Recovery(),
+			middleware.AuthMiddleware(enforcer),
 		),
 	}
 	if c.Grpc.Network != "" {
