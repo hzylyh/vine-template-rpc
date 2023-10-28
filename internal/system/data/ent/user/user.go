@@ -4,6 +4,7 @@ package user
 
 import (
 	"entgo.io/ent/dialect/sql"
+	"github.com/google/uuid"
 )
 
 const (
@@ -27,6 +28,8 @@ const (
 	FieldAddress = "address"
 	// FieldRemark holds the string denoting the remark field in the database.
 	FieldRemark = "remark"
+	// FieldType holds the string denoting the type field in the database.
+	FieldType = "type"
 	// FieldStatus holds the string denoting the status field in the database.
 	FieldStatus = "status"
 	// Table holds the table name of the user in the database.
@@ -44,6 +47,7 @@ var Columns = []string{
 	FieldEmail,
 	FieldAddress,
 	FieldRemark,
+	FieldType,
 	FieldStatus,
 }
 
@@ -58,8 +62,12 @@ func ValidColumn(column string) bool {
 }
 
 var (
+	// DefaultType holds the default value on creation for the "type" field.
+	DefaultType string
 	// DefaultStatus holds the default value on creation for the "status" field.
 	DefaultStatus int
+	// DefaultID holds the default value on creation for the "id" field.
+	DefaultID func() uuid.UUID
 )
 
 // OrderOption defines the ordering options for the User queries.
@@ -108,6 +116,11 @@ func ByAddress(opts ...sql.OrderTermOption) OrderOption {
 // ByRemark orders the results by the remark field.
 func ByRemark(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldRemark, opts...).ToFunc()
+}
+
+// ByType orders the results by the type field.
+func ByType(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldType, opts...).ToFunc()
 }
 
 // ByStatus orders the results by the status field.

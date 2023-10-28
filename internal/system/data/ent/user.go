@@ -9,13 +9,15 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
+	"github.com/google/uuid"
 )
 
 // User is the model entity for the User schema.
 type User struct {
 	config `json:"-"`
 	// ID of the ent.
-	ID int64 `json:"id,omitempty"`
+	// 用户id
+	ID uuid.UUID `json:"id,omitempty"`
 	// 账号
 	Username string `json:"username,omitempty"`
 	// 手机号
@@ -32,6 +34,8 @@ type User struct {
 	Address string `json:"address,omitempty"`
 	// 备注
 	Remark string `json:"remark,omitempty"`
+	// 类型,0: 管理员 1: 普通用户
+	Type string `json:"type,omitempty"`
 	// 状态
 	Status       int `json:"status,omitempty"`
 	selectValues sql.SelectValues
@@ -42,10 +46,12 @@ func (*User) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case user.FieldID, user.FieldStatus:
+		case user.FieldStatus:
 			values[i] = new(sql.NullInt64)
-		case user.FieldUsername, user.FieldPhone, user.FieldPassword, user.FieldAvatar, user.FieldIntroduction, user.FieldEmail, user.FieldAddress, user.FieldRemark:
+		case user.FieldUsername, user.FieldPhone, user.FieldPassword, user.FieldAvatar, user.FieldIntroduction, user.FieldEmail, user.FieldAddress, user.FieldRemark, user.FieldType:
 			values[i] = new(sql.NullString)
+		case user.FieldID:
+			values[i] = new(uuid.UUID)
 		default:
 			values[i] = new(sql.UnknownType)
 		}
@@ -62,11 +68,11 @@ func (u *User) assignValues(columns []string, values []any) error {
 	for i := range columns {
 		switch columns[i] {
 		case user.FieldID:
-			value, ok := values[i].(*sql.NullInt64)
-			if !ok {
-				return fmt.Errorf("unexpected type %T for field id", value)
+			if value, ok := values[i].(*uuid.UUID); !ok {
+				return fmt.Errorf("unexpected type %T for field id", values[i])
+			} else if value != nil {
+				u.ID = *value
 			}
-			u.ID = int64(value.Int64)
 		case user.FieldUsername:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field username", values[i])
@@ -114,6 +120,12 @@ func (u *User) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field remark", values[i])
 			} else if value.Valid {
 				u.Remark = value.String
+			}
+		case user.FieldType:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field type", values[i])
+			} else if value.Valid {
+				u.Type = value.String
 			}
 		case user.FieldStatus:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -180,6 +192,9 @@ func (u *User) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("remark=")
 	builder.WriteString(u.Remark)
+	builder.WriteString(", ")
+	builder.WriteString("type=")
+	builder.WriteString(u.Type)
 	builder.WriteString(", ")
 	builder.WriteString("status=")
 	builder.WriteString(fmt.Sprintf("%v", u.Status))

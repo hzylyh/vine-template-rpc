@@ -13,9 +13,9 @@ type Role struct {
 // Fields of the Role.
 func (Role) Fields() []ent.Field {
 	return []ent.Field{
+		field.Int64("id").Unique().Immutable().Comment("角色id"),
 		field.String("name").NotEmpty().Comment("角色名称"),
-		field.String("code").NotEmpty().Comment("角色编码"),
-		field.String("remark").Comment("备注"),
+		field.String("description").Optional().Comment("备注"),
 		field.Int("status").Default(1).Comment("状态"),
 	}
 }

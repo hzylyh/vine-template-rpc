@@ -19,15 +19,18 @@ type SystemService struct {
 	v1.UnimplementedSystemServer
 	ub *biz.UserBiz
 	ab *biz.AuthBiz
+	rb *biz.RoleBiz
 }
 
 // NewSystemService new a greeter service.
 func NewSystemService(
 	ub *biz.UserBiz,
 	ab *biz.AuthBiz,
+	rb *biz.RoleBiz,
 ) *SystemService {
 	return &SystemService{
 		ub: ub,
 		ab: ab,
+		rb: rb,
 	}
 }

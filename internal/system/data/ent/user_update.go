@@ -159,6 +159,20 @@ func (uu *UserUpdate) ClearRemark() *UserUpdate {
 	return uu
 }
 
+// SetType sets the "type" field.
+func (uu *UserUpdate) SetType(s string) *UserUpdate {
+	uu.mutation.SetType(s)
+	return uu
+}
+
+// SetNillableType sets the "type" field if the given value is not nil.
+func (uu *UserUpdate) SetNillableType(s *string) *UserUpdate {
+	if s != nil {
+		uu.SetType(*s)
+	}
+	return uu
+}
+
 // SetStatus sets the "status" field.
 func (uu *UserUpdate) SetStatus(i int) *UserUpdate {
 	uu.mutation.ResetStatus()
@@ -213,7 +227,7 @@ func (uu *UserUpdate) ExecX(ctx context.Context) {
 }
 
 func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	_spec := sqlgraph.NewUpdateSpec(user.Table, user.Columns, sqlgraph.NewFieldSpec(user.FieldID, field.TypeInt64))
+	_spec := sqlgraph.NewUpdateSpec(user.Table, user.Columns, sqlgraph.NewFieldSpec(user.FieldID, field.TypeUUID))
 	if ps := uu.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -262,6 +276,9 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if uu.mutation.RemarkCleared() {
 		_spec.ClearField(user.FieldRemark, field.TypeString)
+	}
+	if value, ok := uu.mutation.GetType(); ok {
+		_spec.SetField(user.FieldType, field.TypeString, value)
 	}
 	if value, ok := uu.mutation.Status(); ok {
 		_spec.SetField(user.FieldStatus, field.TypeInt, value)
@@ -421,6 +438,20 @@ func (uuo *UserUpdateOne) ClearRemark() *UserUpdateOne {
 	return uuo
 }
 
+// SetType sets the "type" field.
+func (uuo *UserUpdateOne) SetType(s string) *UserUpdateOne {
+	uuo.mutation.SetType(s)
+	return uuo
+}
+
+// SetNillableType sets the "type" field if the given value is not nil.
+func (uuo *UserUpdateOne) SetNillableType(s *string) *UserUpdateOne {
+	if s != nil {
+		uuo.SetType(*s)
+	}
+	return uuo
+}
+
 // SetStatus sets the "status" field.
 func (uuo *UserUpdateOne) SetStatus(i int) *UserUpdateOne {
 	uuo.mutation.ResetStatus()
@@ -488,7 +519,7 @@ func (uuo *UserUpdateOne) ExecX(ctx context.Context) {
 }
 
 func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) {
-	_spec := sqlgraph.NewUpdateSpec(user.Table, user.Columns, sqlgraph.NewFieldSpec(user.FieldID, field.TypeInt64))
+	_spec := sqlgraph.NewUpdateSpec(user.Table, user.Columns, sqlgraph.NewFieldSpec(user.FieldID, field.TypeUUID))
 	id, ok := uuo.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "User.id" for update`)}
@@ -554,6 +585,9 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) 
 	}
 	if uuo.mutation.RemarkCleared() {
 		_spec.ClearField(user.FieldRemark, field.TypeString)
+	}
+	if value, ok := uuo.mutation.GetType(); ok {
+		_spec.SetField(user.FieldType, field.TypeString, value)
 	}
 	if value, ok := uuo.mutation.Status(); ok {
 		_spec.SetField(user.FieldStatus, field.TypeInt, value)

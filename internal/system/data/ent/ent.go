@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"reflect"
 	"sync"
-	"vine-template-rpc/internal/system/data/ent/permission"
 	"vine-template-rpc/internal/system/data/ent/resource"
 	"vine-template-rpc/internal/system/data/ent/role"
 	"vine-template-rpc/internal/system/data/ent/user"
@@ -76,10 +75,9 @@ var (
 func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
-			permission.Table: permission.ValidColumn,
-			resource.Table:   resource.ValidColumn,
-			role.Table:       role.ValidColumn,
-			user.Table:       user.ValidColumn,
+			resource.Table: resource.ValidColumn,
+			role.Table:     role.ValidColumn,
+			user.Table:     user.ValidColumn,
 		})
 	})
 	return columnCheck(table, column)

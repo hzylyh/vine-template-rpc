@@ -32,6 +32,7 @@ const (
 	System_DeleteRole_FullMethodName = "/api.system.v1.System/DeleteRole"
 	System_GetRole_FullMethodName    = "/api.system.v1.System/GetRole"
 	System_ListRole_FullMethodName   = "/api.system.v1.System/ListRole"
+	System_BindUser_FullMethodName   = "/api.system.v1.System/BindUser"
 	System_AddDept_FullMethodName    = "/api.system.v1.System/AddDept"
 	System_UpdateDept_FullMethodName = "/api.system.v1.System/UpdateDept"
 	System_DeleteDept_FullMethodName = "/api.system.v1.System/DeleteDept"
@@ -77,6 +78,8 @@ type SystemClient interface {
 	GetRole(ctx context.Context, in *GetRoleRequest, opts ...grpc.CallOption) (*GetRoleReply, error)
 	// ---- list 获取角色列表 ----
 	ListRole(ctx context.Context, in *ListRoleRequest, opts ...grpc.CallOption) (*ListRoleReply, error)
+	// ---- bind_user 绑定用户 ----
+	BindUser(ctx context.Context, in *BindUserRequest, opts ...grpc.CallOption) (*BindUserReply, error)
 	// -------- dept 部门相关 --------
 	// ---- add 新增部门信息 ----
 	AddDept(ctx context.Context, in *AddDeptRequest, opts ...grpc.CallOption) (*AddDeptReply, error)
@@ -226,6 +229,15 @@ func (c *systemClient) ListRole(ctx context.Context, in *ListRoleRequest, opts .
 	return out, nil
 }
 
+func (c *systemClient) BindUser(ctx context.Context, in *BindUserRequest, opts ...grpc.CallOption) (*BindUserReply, error) {
+	out := new(BindUserReply)
+	err := c.cc.Invoke(ctx, System_BindUser_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *systemClient) AddDept(ctx context.Context, in *AddDeptRequest, opts ...grpc.CallOption) (*AddDeptReply, error) {
 	out := new(AddDeptReply)
 	err := c.cc.Invoke(ctx, System_AddDept_FullMethodName, in, out, opts...)
@@ -349,6 +361,8 @@ type SystemServer interface {
 	GetRole(context.Context, *GetRoleRequest) (*GetRoleReply, error)
 	// ---- list 获取角色列表 ----
 	ListRole(context.Context, *ListRoleRequest) (*ListRoleReply, error)
+	// ---- bind_user 绑定用户 ----
+	BindUser(context.Context, *BindUserRequest) (*BindUserReply, error)
 	// -------- dept 部门相关 --------
 	// ---- add 新增部门信息 ----
 	AddDept(context.Context, *AddDeptRequest) (*AddDeptReply, error)
@@ -416,6 +430,9 @@ func (UnimplementedSystemServer) GetRole(context.Context, *GetRoleRequest) (*Get
 }
 func (UnimplementedSystemServer) ListRole(context.Context, *ListRoleRequest) (*ListRoleReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListRole not implemented")
+}
+func (UnimplementedSystemServer) BindUser(context.Context, *BindUserRequest) (*BindUserReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BindUser not implemented")
 }
 func (UnimplementedSystemServer) AddDept(context.Context, *AddDeptRequest) (*AddDeptReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddDept not implemented")
@@ -694,6 +711,24 @@ func _System_ListRole_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _System_BindUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BindUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServer).BindUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: System_BindUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServer).BindUser(ctx, req.(*BindUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _System_AddDept_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AddDeptRequest)
 	if err := dec(in); err != nil {
@@ -932,6 +967,10 @@ var System_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListRole",
 			Handler:    _System_ListRole_Handler,
+		},
+		{
+			MethodName: "BindUser",
+			Handler:    _System_BindUser_Handler,
 		},
 		{
 			MethodName: "AddDept",

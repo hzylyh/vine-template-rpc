@@ -25,15 +25,17 @@ func (rc *RoleCreate) SetName(s string) *RoleCreate {
 	return rc
 }
 
-// SetCode sets the "code" field.
-func (rc *RoleCreate) SetCode(s string) *RoleCreate {
-	rc.mutation.SetCode(s)
+// SetDescription sets the "description" field.
+func (rc *RoleCreate) SetDescription(s string) *RoleCreate {
+	rc.mutation.SetDescription(s)
 	return rc
 }
 
-// SetRemark sets the "remark" field.
-func (rc *RoleCreate) SetRemark(s string) *RoleCreate {
-	rc.mutation.SetRemark(s)
+// SetNillableDescription sets the "description" field if the given value is not nil.
+func (rc *RoleCreate) SetNillableDescription(s *string) *RoleCreate {
+	if s != nil {
+		rc.SetDescription(*s)
+	}
 	return rc
 }
 
@@ -48,6 +50,12 @@ func (rc *RoleCreate) SetNillableStatus(i *int) *RoleCreate {
 	if i != nil {
 		rc.SetStatus(*i)
 	}
+	return rc
+}
+
+// SetID sets the "id" field.
+func (rc *RoleCreate) SetID(i int64) *RoleCreate {
+	rc.mutation.SetID(i)
 	return rc
 }
 
@@ -102,17 +110,6 @@ func (rc *RoleCreate) check() error {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Role.name": %w`, err)}
 		}
 	}
-	if _, ok := rc.mutation.Code(); !ok {
-		return &ValidationError{Name: "code", err: errors.New(`ent: missing required field "Role.code"`)}
-	}
-	if v, ok := rc.mutation.Code(); ok {
-		if err := role.CodeValidator(v); err != nil {
-			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Role.code": %w`, err)}
-		}
-	}
-	if _, ok := rc.mutation.Remark(); !ok {
-		return &ValidationError{Name: "remark", err: errors.New(`ent: missing required field "Role.remark"`)}
-	}
 	if _, ok := rc.mutation.Status(); !ok {
 		return &ValidationError{Name: "status", err: errors.New(`ent: missing required field "Role.status"`)}
 	}
@@ -130,8 +127,10 @@ func (rc *RoleCreate) sqlSave(ctx context.Context) (*Role, error) {
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != _node.ID {
+		id := _spec.ID.Value.(int64)
+		_node.ID = int64(id)
+	}
 	rc.mutation.id = &_node.ID
 	rc.mutation.done = true
 	return _node, nil
@@ -140,19 +139,19 @@ func (rc *RoleCreate) sqlSave(ctx context.Context) (*Role, error) {
 func (rc *RoleCreate) createSpec() (*Role, *sqlgraph.CreateSpec) {
 	var (
 		_node = &Role{config: rc.config}
-		_spec = sqlgraph.NewCreateSpec(role.Table, sqlgraph.NewFieldSpec(role.FieldID, field.TypeInt))
+		_spec = sqlgraph.NewCreateSpec(role.Table, sqlgraph.NewFieldSpec(role.FieldID, field.TypeInt64))
 	)
+	if id, ok := rc.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
+	}
 	if value, ok := rc.mutation.Name(); ok {
 		_spec.SetField(role.FieldName, field.TypeString, value)
 		_node.Name = value
 	}
-	if value, ok := rc.mutation.Code(); ok {
-		_spec.SetField(role.FieldCode, field.TypeString, value)
-		_node.Code = value
-	}
-	if value, ok := rc.mutation.Remark(); ok {
-		_spec.SetField(role.FieldRemark, field.TypeString, value)
-		_node.Remark = value
+	if value, ok := rc.mutation.Description(); ok {
+		_spec.SetField(role.FieldDescription, field.TypeString, value)
+		_node.Description = value
 	}
 	if value, ok := rc.mutation.Status(); ok {
 		_spec.SetField(role.FieldStatus, field.TypeInt, value)
@@ -206,9 +205,9 @@ func (rcb *RoleCreateBulk) Save(ctx context.Context) ([]*Role, error) {
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
+				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
+					nodes[i].ID = int64(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

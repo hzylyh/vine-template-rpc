@@ -47,7 +47,9 @@ func (u *userRepo) Delete(ctx context.Context, user *biz.User) error {
 }
 
 func (u *userRepo) Get(ctx context.Context, query *biz.User) (*biz.User, error) {
-	info, err := u.data.db.User.Query().Where(user.Username(query.Username)).Only(ctx)
+	info, err := u.data.db.User.Query().Where(
+		user.UsernameEQ(query.Username),
+	).Only(ctx)
 	if err != nil {
 		u.log.Errorf("get user error: %v", err)
 		return nil, err

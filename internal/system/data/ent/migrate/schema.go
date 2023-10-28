@@ -8,20 +8,6 @@ import (
 )
 
 var (
-	// PermissionsColumns holds the columns for the "permissions" table.
-	PermissionsColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "name", Type: field.TypeString},
-		{Name: "code", Type: field.TypeString},
-		{Name: "remark", Type: field.TypeString},
-		{Name: "status", Type: field.TypeInt, Default: 1},
-	}
-	// PermissionsTable holds the schema information for the "permissions" table.
-	PermissionsTable = &schema.Table{
-		Name:       "permissions",
-		Columns:    PermissionsColumns,
-		PrimaryKey: []*schema.Column{PermissionsColumns[0]},
-	}
 	// ResourcesColumns holds the columns for the "resources" table.
 	ResourcesColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
@@ -40,10 +26,9 @@ var (
 	}
 	// RolesColumns holds the columns for the "roles" table.
 	RolesColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "id", Type: field.TypeInt64, Increment: true},
 		{Name: "name", Type: field.TypeString},
-		{Name: "code", Type: field.TypeString},
-		{Name: "remark", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
 		{Name: "status", Type: field.TypeInt, Default: 1},
 	}
 	// RolesTable holds the schema information for the "roles" table.
@@ -54,7 +39,7 @@ var (
 	}
 	// UsersColumns holds the columns for the "users" table.
 	UsersColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt64, Increment: true},
+		{Name: "id", Type: field.TypeUUID},
 		{Name: "username", Type: field.TypeString, Unique: true},
 		{Name: "phone", Type: field.TypeString, Nullable: true},
 		{Name: "password", Type: field.TypeString},
@@ -63,6 +48,7 @@ var (
 		{Name: "email", Type: field.TypeString, Nullable: true},
 		{Name: "address", Type: field.TypeString, Nullable: true},
 		{Name: "remark", Type: field.TypeString, Nullable: true},
+		{Name: "type", Type: field.TypeString, Default: "1"},
 		{Name: "status", Type: field.TypeInt, Default: 1},
 	}
 	// UsersTable holds the schema information for the "users" table.
@@ -73,7 +59,6 @@ var (
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
-		PermissionsTable,
 		ResourcesTable,
 		RolesTable,
 		UsersTable,

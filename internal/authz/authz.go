@@ -59,6 +59,12 @@ m = (r.sub == p.sub || p.sub == "*") && (r.sub2 == p.sub2 || p.sub2 == "*") && r
 
 	ruleText := `
 p, *, auth, read, /api.system.v1.System/AddUser
+
+p, *, auth, read, /api.system.v1.System/AddRole
+p, *, auth, read, /api.system.v1.System/BindUser
+
+
+p, *, *, read, /api.system.v1.System/Login
 `
 
 	sa := stringadapter.NewAdapter(ruleText)

@@ -15,7 +15,7 @@ import (
 )
 
 func (s *SystemService) AddRole(ctx context.Context, request *v1.AddRoleRequest) (*v1.AddRoleReply, error) {
-	return &v1.AddRoleReply{}, nil
+	return s.rb.AddRole(ctx, request)
 }
 
 func (s *SystemService) UpdateRole(ctx context.Context, request *v1.UpdateRoleRequest) (*v1.UpdateRoleReply, error) {
@@ -32,4 +32,8 @@ func (s *SystemService) GetRole(ctx context.Context, request *v1.GetRoleRequest)
 
 func (s *SystemService) ListRole(ctx context.Context, request *v1.ListRoleRequest) (*v1.ListRoleReply, error) {
 	return &v1.ListRoleReply{}, nil
+}
+
+func (s *SystemService) BindUser(ctx context.Context, request *v1.BindUserRequest) (*v1.BindUserReply, error) {
+	return s.rb.BindUser(ctx, request)
 }

@@ -24,9 +24,13 @@ var SystemProviderSet = wire.NewSet(
 	// biz
 	biz.NewUserBiz,
 	biz.NewAuthBiz,
+	biz.NewRoleBiz,
 
-	// data
+	// data common
 	data.NewData,
 	data.NewEntClient,
+
+	//data biz
 	data.NewUserRepo,
+	data.NewRoleRepo,
 )

@@ -33,15 +33,23 @@ func (ru *RoleUpdate) SetName(s string) *RoleUpdate {
 	return ru
 }
 
-// SetCode sets the "code" field.
-func (ru *RoleUpdate) SetCode(s string) *RoleUpdate {
-	ru.mutation.SetCode(s)
+// SetDescription sets the "description" field.
+func (ru *RoleUpdate) SetDescription(s string) *RoleUpdate {
+	ru.mutation.SetDescription(s)
 	return ru
 }
 
-// SetRemark sets the "remark" field.
-func (ru *RoleUpdate) SetRemark(s string) *RoleUpdate {
-	ru.mutation.SetRemark(s)
+// SetNillableDescription sets the "description" field if the given value is not nil.
+func (ru *RoleUpdate) SetNillableDescription(s *string) *RoleUpdate {
+	if s != nil {
+		ru.SetDescription(*s)
+	}
+	return ru
+}
+
+// ClearDescription clears the value of the "description" field.
+func (ru *RoleUpdate) ClearDescription() *RoleUpdate {
+	ru.mutation.ClearDescription()
 	return ru
 }
 
@@ -105,11 +113,6 @@ func (ru *RoleUpdate) check() error {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Role.name": %w`, err)}
 		}
 	}
-	if v, ok := ru.mutation.Code(); ok {
-		if err := role.CodeValidator(v); err != nil {
-			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Role.code": %w`, err)}
-		}
-	}
 	return nil
 }
 
@@ -117,7 +120,7 @@ func (ru *RoleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if err := ru.check(); err != nil {
 		return n, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(role.Table, role.Columns, sqlgraph.NewFieldSpec(role.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(role.Table, role.Columns, sqlgraph.NewFieldSpec(role.FieldID, field.TypeInt64))
 	if ps := ru.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -128,11 +131,11 @@ func (ru *RoleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if value, ok := ru.mutation.Name(); ok {
 		_spec.SetField(role.FieldName, field.TypeString, value)
 	}
-	if value, ok := ru.mutation.Code(); ok {
-		_spec.SetField(role.FieldCode, field.TypeString, value)
+	if value, ok := ru.mutation.Description(); ok {
+		_spec.SetField(role.FieldDescription, field.TypeString, value)
 	}
-	if value, ok := ru.mutation.Remark(); ok {
-		_spec.SetField(role.FieldRemark, field.TypeString, value)
+	if ru.mutation.DescriptionCleared() {
+		_spec.ClearField(role.FieldDescription, field.TypeString)
 	}
 	if value, ok := ru.mutation.Status(); ok {
 		_spec.SetField(role.FieldStatus, field.TypeInt, value)
@@ -166,15 +169,23 @@ func (ruo *RoleUpdateOne) SetName(s string) *RoleUpdateOne {
 	return ruo
 }
 
-// SetCode sets the "code" field.
-func (ruo *RoleUpdateOne) SetCode(s string) *RoleUpdateOne {
-	ruo.mutation.SetCode(s)
+// SetDescription sets the "description" field.
+func (ruo *RoleUpdateOne) SetDescription(s string) *RoleUpdateOne {
+	ruo.mutation.SetDescription(s)
 	return ruo
 }
 
-// SetRemark sets the "remark" field.
-func (ruo *RoleUpdateOne) SetRemark(s string) *RoleUpdateOne {
-	ruo.mutation.SetRemark(s)
+// SetNillableDescription sets the "description" field if the given value is not nil.
+func (ruo *RoleUpdateOne) SetNillableDescription(s *string) *RoleUpdateOne {
+	if s != nil {
+		ruo.SetDescription(*s)
+	}
+	return ruo
+}
+
+// ClearDescription clears the value of the "description" field.
+func (ruo *RoleUpdateOne) ClearDescription() *RoleUpdateOne {
+	ruo.mutation.ClearDescription()
 	return ruo
 }
 
@@ -251,11 +262,6 @@ func (ruo *RoleUpdateOne) check() error {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Role.name": %w`, err)}
 		}
 	}
-	if v, ok := ruo.mutation.Code(); ok {
-		if err := role.CodeValidator(v); err != nil {
-			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Role.code": %w`, err)}
-		}
-	}
 	return nil
 }
 
@@ -263,7 +269,7 @@ func (ruo *RoleUpdateOne) sqlSave(ctx context.Context) (_node *Role, err error) 
 	if err := ruo.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(role.Table, role.Columns, sqlgraph.NewFieldSpec(role.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(role.Table, role.Columns, sqlgraph.NewFieldSpec(role.FieldID, field.TypeInt64))
 	id, ok := ruo.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Role.id" for update`)}
@@ -291,11 +297,11 @@ func (ruo *RoleUpdateOne) sqlSave(ctx context.Context) (_node *Role, err error) 
 	if value, ok := ruo.mutation.Name(); ok {
 		_spec.SetField(role.FieldName, field.TypeString, value)
 	}
-	if value, ok := ruo.mutation.Code(); ok {
-		_spec.SetField(role.FieldCode, field.TypeString, value)
+	if value, ok := ruo.mutation.Description(); ok {
+		_spec.SetField(role.FieldDescription, field.TypeString, value)
 	}
-	if value, ok := ruo.mutation.Remark(); ok {
-		_spec.SetField(role.FieldRemark, field.TypeString, value)
+	if ruo.mutation.DescriptionCleared() {
+		_spec.ClearField(role.FieldDescription, field.TypeString)
 	}
 	if value, ok := ruo.mutation.Status(); ok {
 		_spec.SetField(role.FieldStatus, field.TypeInt, value)

@@ -15,13 +15,12 @@ import (
 type Role struct {
 	config `json:"-"`
 	// ID of the ent.
-	ID int `json:"id,omitempty"`
+	// 角色id
+	ID int64 `json:"id,omitempty"`
 	// 角色名称
 	Name string `json:"name,omitempty"`
-	// 角色编码
-	Code string `json:"code,omitempty"`
 	// 备注
-	Remark string `json:"remark,omitempty"`
+	Description string `json:"description,omitempty"`
 	// 状态
 	Status       int `json:"status,omitempty"`
 	selectValues sql.SelectValues
@@ -34,7 +33,7 @@ func (*Role) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case role.FieldID, role.FieldStatus:
 			values[i] = new(sql.NullInt64)
-		case role.FieldName, role.FieldCode, role.FieldRemark:
+		case role.FieldName, role.FieldDescription:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -56,24 +55,18 @@ func (r *Role) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			r.ID = int(value.Int64)
+			r.ID = int64(value.Int64)
 		case role.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
 				r.Name = value.String
 			}
-		case role.FieldCode:
+		case role.FieldDescription:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field code", values[i])
+				return fmt.Errorf("unexpected type %T for field description", values[i])
 			} else if value.Valid {
-				r.Code = value.String
-			}
-		case role.FieldRemark:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field remark", values[i])
-			} else if value.Valid {
-				r.Remark = value.String
+				r.Description = value.String
 			}
 		case role.FieldStatus:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -120,11 +113,8 @@ func (r *Role) String() string {
 	builder.WriteString("name=")
 	builder.WriteString(r.Name)
 	builder.WriteString(", ")
-	builder.WriteString("code=")
-	builder.WriteString(r.Code)
-	builder.WriteString(", ")
-	builder.WriteString("remark=")
-	builder.WriteString(r.Remark)
+	builder.WriteString("description=")
+	builder.WriteString(r.Description)
 	builder.WriteString(", ")
 	builder.WriteString("status=")
 	builder.WriteString(fmt.Sprintf("%v", r.Status))

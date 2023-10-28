@@ -6,9 +6,6 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
-// Permission is the predicate function for permission builders.
-type Permission func(*sql.Selector)
-
 // Resource is the predicate function for resource builders.
 type Resource func(*sql.Selector)
 

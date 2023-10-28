@@ -12,7 +12,7 @@ package biz
 import (
 	"context"
 	"github.com/go-kratos/kratos/v2/log"
-	"math/rand"
+	"github.com/google/uuid"
 	v1 "vine-template-rpc/api/system/v1"
 )
 
@@ -30,7 +30,7 @@ type UserBiz struct {
 }
 
 type User struct {
-	Id       int64
+	Id       uuid.UUID
 	Username string
 	Password string
 }
@@ -45,7 +45,6 @@ func NewUserBiz(repo UserRepo, logger log.Logger) *UserBiz {
 
 func (u *UserBiz) AddUser(ctx context.Context, request *v1.AddUserRequest) (*v1.AddUserReply, error) {
 	user, err := u.repo.Add(ctx, &User{
-		Id:       rand.Int63(),
 		Username: request.Username,
 		Password: request.Password,
 	})
@@ -54,7 +53,7 @@ func (u *UserBiz) AddUser(ctx context.Context, request *v1.AddUserRequest) (*v1.
 		return nil, err
 	}
 	return &v1.AddUserReply{
-		Id:       user.Id,
+		Id:       user.Id.String(),
 		Username: user.Username,
 	}, nil
 }

@@ -23,6 +23,7 @@ const OperationSystemAddDept = "/api.system.v1.System/AddDept"
 const OperationSystemAddPerm = "/api.system.v1.System/AddPerm"
 const OperationSystemAddRole = "/api.system.v1.System/AddRole"
 const OperationSystemAddUser = "/api.system.v1.System/AddUser"
+const OperationSystemBindUser = "/api.system.v1.System/BindUser"
 const OperationSystemDeleteDept = "/api.system.v1.System/DeleteDept"
 const OperationSystemDeletePerm = "/api.system.v1.System/DeletePerm"
 const OperationSystemDeleteRole = "/api.system.v1.System/DeleteRole"
@@ -56,6 +57,8 @@ type SystemHTTPServer interface {
 	// AddUser -------- user 用户相关 --------
 	// ---- add 新增用户信息 ----
 	AddUser(context.Context, *AddUserRequest) (*AddUserReply, error)
+	// BindUser ---- bind_user 绑定用户 ----
+	BindUser(context.Context, *BindUserRequest) (*BindUserReply, error)
 	// DeleteDept ---- delete 删除部门信息 ----
 	DeleteDept(context.Context, *DeleteDeptRequest) (*DeleteDeptReply, error)
 	// DeletePerm ---- delete 权限删除 ----
@@ -107,11 +110,12 @@ func RegisterSystemHTTPServer(s *http.Server, srv SystemHTTPServer) {
 	r.GET("/user/delete", _System_DeleteUser0_HTTP_Handler(srv))
 	r.GET("/user/detail", _System_GetUser0_HTTP_Handler(srv))
 	r.GET("/user/list", _System_ListUser0_HTTP_Handler(srv))
-	r.GET("/role/add", _System_AddRole0_HTTP_Handler(srv))
+	r.POST("/role/add", _System_AddRole0_HTTP_Handler(srv))
 	r.GET("/role/update", _System_UpdateRole0_HTTP_Handler(srv))
 	r.GET("/role/delete", _System_DeleteRole0_HTTP_Handler(srv))
 	r.GET("/role/detail", _System_GetRole0_HTTP_Handler(srv))
 	r.GET("/role/list", _System_ListRole0_HTTP_Handler(srv))
+	r.POST("/role/bindUser", _System_BindUser0_HTTP_Handler(srv))
 	r.GET("/dept/add", _System_AddDept0_HTTP_Handler(srv))
 	r.GET("/dept/update", _System_UpdateDept0_HTTP_Handler(srv))
 	r.GET("/dept/delete", _System_DeleteDept0_HTTP_Handler(srv))
@@ -285,6 +289,9 @@ func _System_ListUser0_HTTP_Handler(srv SystemHTTPServer) func(ctx http.Context)
 func _System_AddRole0_HTTP_Handler(srv SystemHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in AddRoleRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
@@ -373,6 +380,28 @@ func _System_ListRole0_HTTP_Handler(srv SystemHTTPServer) func(ctx http.Context)
 			return err
 		}
 		reply := out.(*ListRoleReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _System_BindUser0_HTTP_Handler(srv SystemHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in BindUserRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationSystemBindUser)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.BindUser(ctx, req.(*BindUserRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*BindUserReply)
 		return ctx.Result(200, reply)
 	}
 }
@@ -572,6 +601,7 @@ type SystemHTTPClient interface {
 	AddPerm(ctx context.Context, req *AddPermRequest, opts ...http.CallOption) (rsp *AddPermReply, err error)
 	AddRole(ctx context.Context, req *AddRoleRequest, opts ...http.CallOption) (rsp *AddRoleReply, err error)
 	AddUser(ctx context.Context, req *AddUserRequest, opts ...http.CallOption) (rsp *AddUserReply, err error)
+	BindUser(ctx context.Context, req *BindUserRequest, opts ...http.CallOption) (rsp *BindUserReply, err error)
 	DeleteDept(ctx context.Context, req *DeleteDeptRequest, opts ...http.CallOption) (rsp *DeleteDeptReply, err error)
 	DeletePerm(ctx context.Context, req *DeletePermRequest, opts ...http.CallOption) (rsp *DeletePermReply, err error)
 	DeleteRole(ctx context.Context, req *DeleteRoleRequest, opts ...http.CallOption) (rsp *DeleteRoleReply, err error)
@@ -630,10 +660,10 @@ func (c *SystemHTTPClientImpl) AddPerm(ctx context.Context, in *AddPermRequest, 
 func (c *SystemHTTPClientImpl) AddRole(ctx context.Context, in *AddRoleRequest, opts ...http.CallOption) (*AddRoleReply, error) {
 	var out AddRoleReply
 	pattern := "/role/add"
-	path := binding.EncodeURL(pattern, in, true)
+	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationSystemAddRole))
 	opts = append(opts, http.PathTemplate(pattern))
-	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -645,6 +675,19 @@ func (c *SystemHTTPClientImpl) AddUser(ctx context.Context, in *AddUserRequest, 
 	pattern := "/user/add"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationSystemAddUser))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *SystemHTTPClientImpl) BindUser(ctx context.Context, in *BindUserRequest, opts ...http.CallOption) (*BindUserReply, error) {
+	var out BindUserReply
+	pattern := "/role/bindUser"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationSystemBindUser))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {

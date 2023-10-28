@@ -67,7 +67,8 @@ service System {
 	// ---- add 新增角色信息 ----
 	rpc AddRole (AddRoleRequest) returns (AddRoleReply) {
 		option (google.api.http) = {
-			get: "/role/add"
+			post: "/role/add"
+			body: "*" // body: "name"
 		};
 	};
 	// ---- update 修改角色信息 ----
@@ -92,6 +93,13 @@ service System {
 	rpc ListRole (ListRoleRequest) returns (ListRoleReply) {
 		option (google.api.http) = {
 			get: "/role/list"
+		};
+	};
+	// ---- bind_user 绑定用户 ----
+	rpc BindUser (BindUserRequest) returns (BindUserReply) {
+		option (google.api.http) = {
+			post: "/role/bindUser"
+			body: "*" // body: "role_id,user_id"
 		};
 	};
 
@@ -195,7 +203,7 @@ message AddUserRequest {
 	string status = 7;
 }
 message AddUserReply {
-	int64 id = 1;
+	string id = 1;
 	string username = 2;
 }
 
@@ -229,10 +237,12 @@ message ListUserReply {
 
 // -------- role --------
 message AddRoleRequest {
-
+	string name = 1;
+	string description = 2;
 }
 message AddRoleReply {
-
+	int64 id = 1;
+	string name = 2;
 }
 
 message UpdateRoleRequest {
@@ -260,6 +270,15 @@ message ListRoleRequest {
 
 }
 message ListRoleReply {
+
+}
+
+message BindUserRequest {
+	int64 role_id = 1;
+	string role_name = 2;
+	repeated string username_list = 3;
+}
+message BindUserReply {
 
 }
 
