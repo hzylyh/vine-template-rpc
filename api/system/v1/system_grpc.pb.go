@@ -66,7 +66,7 @@ type SystemClient interface {
 	// ---- get 获取用户详情 ----
 	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserReply, error)
 	// ---- list 获取用户列表 ----
-	ListUser(ctx context.Context, in *ListUserRequest, opts ...grpc.CallOption) (*ListUserReply, error)
+	ListUser(ctx context.Context, in *ListUserRequest, opts ...grpc.CallOption) (*Page, error)
 	// -------- role 角色相关 --------
 	// ---- add 新增角色信息 ----
 	AddRole(ctx context.Context, in *AddRoleRequest, opts ...grpc.CallOption) (*AddRoleReply, error)
@@ -175,8 +175,8 @@ func (c *systemClient) GetUser(ctx context.Context, in *GetUserRequest, opts ...
 	return out, nil
 }
 
-func (c *systemClient) ListUser(ctx context.Context, in *ListUserRequest, opts ...grpc.CallOption) (*ListUserReply, error) {
-	out := new(ListUserReply)
+func (c *systemClient) ListUser(ctx context.Context, in *ListUserRequest, opts ...grpc.CallOption) (*Page, error) {
+	out := new(Page)
 	err := c.cc.Invoke(ctx, System_ListUser_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -349,7 +349,7 @@ type SystemServer interface {
 	// ---- get 获取用户详情 ----
 	GetUser(context.Context, *GetUserRequest) (*GetUserReply, error)
 	// ---- list 获取用户列表 ----
-	ListUser(context.Context, *ListUserRequest) (*ListUserReply, error)
+	ListUser(context.Context, *ListUserRequest) (*Page, error)
 	// -------- role 角色相关 --------
 	// ---- add 新增角色信息 ----
 	AddRole(context.Context, *AddRoleRequest) (*AddRoleReply, error)
@@ -413,7 +413,7 @@ func (UnimplementedSystemServer) DeleteUser(context.Context, *DeleteUserRequest)
 func (UnimplementedSystemServer) GetUser(context.Context, *GetUserRequest) (*GetUserReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUser not implemented")
 }
-func (UnimplementedSystemServer) ListUser(context.Context, *ListUserRequest) (*ListUserReply, error) {
+func (UnimplementedSystemServer) ListUser(context.Context, *ListUserRequest) (*Page, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListUser not implemented")
 }
 func (UnimplementedSystemServer) AddRole(context.Context, *AddRoleRequest) (*AddRoleReply, error) {

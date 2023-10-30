@@ -82,7 +82,7 @@ type SystemHTTPServer interface {
 	// ListRole ---- list 获取角色列表 ----
 	ListRole(context.Context, *ListRoleRequest) (*ListRoleReply, error)
 	// ListUser ---- list 获取用户列表 ----
-	ListUser(context.Context, *ListUserRequest) (*ListUserReply, error)
+	ListUser(context.Context, *ListUserRequest) (*Page, error)
 	// Login -------- auth 认证相关 --------
 	// ---- login 登陆 ----
 	Login(context.Context, *LoginRequest) (*LoginReply, error)
@@ -109,7 +109,7 @@ func RegisterSystemHTTPServer(s *http.Server, srv SystemHTTPServer) {
 	r.GET("/user/update", _System_UpdateUser0_HTTP_Handler(srv))
 	r.GET("/user/delete", _System_DeleteUser0_HTTP_Handler(srv))
 	r.GET("/user/detail", _System_GetUser0_HTTP_Handler(srv))
-	r.GET("/user/list", _System_ListUser0_HTTP_Handler(srv))
+	r.POST("/user/list", _System_ListUser0_HTTP_Handler(srv))
 	r.POST("/role/add", _System_AddRole0_HTTP_Handler(srv))
 	r.GET("/role/update", _System_UpdateRole0_HTTP_Handler(srv))
 	r.GET("/role/delete", _System_DeleteRole0_HTTP_Handler(srv))
@@ -270,6 +270,9 @@ func _System_GetUser0_HTTP_Handler(srv SystemHTTPServer) func(ctx http.Context) 
 func _System_ListUser0_HTTP_Handler(srv SystemHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in ListUserRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
@@ -281,7 +284,7 @@ func _System_ListUser0_HTTP_Handler(srv SystemHTTPServer) func(ctx http.Context)
 		if err != nil {
 			return err
 		}
-		reply := out.(*ListUserReply)
+		reply := out.(*Page)
 		return ctx.Result(200, reply)
 	}
 }
@@ -616,7 +619,7 @@ type SystemHTTPClient interface {
 	ListDept(ctx context.Context, req *ListDeptRequest, opts ...http.CallOption) (rsp *ListDeptReply, err error)
 	ListPerm(ctx context.Context, req *ListPermRequest, opts ...http.CallOption) (rsp *ListPermReply, err error)
 	ListRole(ctx context.Context, req *ListRoleRequest, opts ...http.CallOption) (rsp *ListRoleReply, err error)
-	ListUser(ctx context.Context, req *ListUserRequest, opts ...http.CallOption) (rsp *ListUserReply, err error)
+	ListUser(ctx context.Context, req *ListUserRequest, opts ...http.CallOption) (rsp *Page, err error)
 	Login(ctx context.Context, req *LoginRequest, opts ...http.CallOption) (rsp *LoginReply, err error)
 	Logout(ctx context.Context, req *LogoutRequest, opts ...http.CallOption) (rsp *LogoutReply, err error)
 	Register(ctx context.Context, req *RegisterRequest, opts ...http.CallOption) (rsp *RegisterReply, err error)
@@ -842,13 +845,13 @@ func (c *SystemHTTPClientImpl) ListRole(ctx context.Context, in *ListRoleRequest
 	return &out, err
 }
 
-func (c *SystemHTTPClientImpl) ListUser(ctx context.Context, in *ListUserRequest, opts ...http.CallOption) (*ListUserReply, error) {
-	var out ListUserReply
+func (c *SystemHTTPClientImpl) ListUser(ctx context.Context, in *ListUserRequest, opts ...http.CallOption) (*Page, error) {
+	var out Page
 	pattern := "/user/list"
-	path := binding.EncodeURL(pattern, in, true)
+	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationSystemListUser))
 	opts = append(opts, http.PathTemplate(pattern))
-	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
 		return nil, err
 	}

@@ -46,6 +46,6 @@ func (s *SystemService) GetUser(ctx context.Context, request *v1.GetUserRequest)
 	return &v1.GetUserReply{}, nil
 }
 
-func (s *SystemService) ListUser(ctx context.Context, request *v1.ListUserRequest) (*v1.ListUserReply, error) {
-	return &v1.ListUserReply{}, nil
+func (s *SystemService) ListUser(ctx context.Context, request *v1.ListUserRequest) (*v1.Page, error) {
+	return s.ub.ListUser(ctx, request)
 }

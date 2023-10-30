@@ -3,6 +3,7 @@ syntax = "proto3";
 package api.system.v1;
 
 import "google/api/annotations.proto";
+import "google/protobuf/struct.proto";
 
 option go_package = "vine-template-rpc/api/system/v1;v1";
 option java_multiple_files = true;
@@ -57,9 +58,10 @@ service System {
 		};
 	};
 	// ---- list 获取用户列表 ----
-	rpc ListUser (ListUserRequest) returns (ListUserReply) {
+	rpc ListUser (ListUserRequest) returns (Page) {
 		option (google.api.http) = {
-			get: "/user/list"
+			post: "/user/list"
+			body: "*" // body: "page_num,page_size"
 		};
 	};
 
@@ -168,6 +170,13 @@ service System {
 			get: "/perm/list"
 		};
 	};
+}
+
+message Page {
+	int32 page_num = 1;
+	int32 page_size = 2;
+	int32 total = 3;
+	repeated google.protobuf.Struct list = 4;
 }
 
 // ------- auth --------

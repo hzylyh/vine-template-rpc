@@ -14,6 +14,7 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/google/uuid"
 	v1 "vine-template-rpc/api/system/v1"
+	"vine-template-rpc/pkg/pagehelper"
 )
 
 type UserRepo interface {
@@ -30,9 +31,9 @@ type UserBiz struct {
 }
 
 type User struct {
-	Id       uuid.UUID
-	Username string
-	Password string
+	Id       uuid.UUID `json:"id"`
+	Username string    `json:"username"`
+	Password string    `json:"password"`
 }
 
 // NewUserBiz .
@@ -70,6 +71,13 @@ func (u *UserBiz) GetUser(ctx context.Context, request *v1.GetUserRequest) (*v1.
 	return &v1.GetUserReply{}, nil
 }
 
-func (u *UserBiz) ListUser(ctx context.Context, request *v1.ListUserRequest) (*v1.ListUserReply, error) {
-	return &v1.ListUserReply{}, nil
+func (u *UserBiz) ListUser(ctx context.Context, request *v1.ListUserRequest) (*v1.Page, error) {
+	userList, err := u.repo.List(ctx, &User{})
+	if err != nil {
+		u.log.Errorf("list user error: %v", err)
+		return nil, err
+	}
+	pageClient := pagehelper.NewMemPage(userList)
+	resWithPage := pageClient.Paginator(1, 10)
+	return resWithPage, nil
 }

@@ -62,8 +62,20 @@ func (u *userRepo) Get(ctx context.Context, query *biz.User) (*biz.User, error) 
 }
 
 func (u *userRepo) List(ctx context.Context, user *biz.User) ([]*biz.User, error) {
-	//TODO implement me
-	panic("implement me")
+	list, err := u.data.db.User.Query().All(ctx)
+	if err != nil {
+		u.log.Errorf("list user error: %v", err)
+		return nil, err
+	}
+	var users []*biz.User
+	for _, item := range list {
+		users = append(users, &biz.User{
+			Id:       item.ID,
+			Username: item.Username,
+			Password: item.Password,
+		})
+	}
+	return users, nil
 }
 
 func NewUserRepo(data *Data, logger log.Logger) biz.UserRepo {
