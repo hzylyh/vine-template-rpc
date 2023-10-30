@@ -20,6 +20,7 @@ type SystemService struct {
 	ub *biz.UserBiz
 	ab *biz.AuthBiz
 	rb *biz.RoleBiz
+	pb *biz.PermBiz
 }
 
 // NewSystemService new a greeter service.
@@ -27,10 +28,12 @@ func NewSystemService(
 	ub *biz.UserBiz,
 	ab *biz.AuthBiz,
 	rb *biz.RoleBiz,
+	pb *biz.PermBiz,
 ) *SystemService {
 	return &SystemService{
 		ub: ub,
 		ab: ab,
 		rb: rb,
+		pb: pb,
 	}
 }

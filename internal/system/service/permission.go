@@ -15,7 +15,7 @@ import (
 )
 
 func (s *SystemService) AddPerm(ctx context.Context, request *v1.AddPermRequest) (*v1.AddPermReply, error) {
-	return &v1.AddPermReply{}, nil
+	return s.pb.AddPerm(ctx, request)
 }
 
 func (s *SystemService) UpdatePerm(ctx context.Context, request *v1.UpdatePermRequest) (*v1.UpdatePermReply, error) {

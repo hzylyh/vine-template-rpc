@@ -121,7 +121,7 @@ func RegisterSystemHTTPServer(s *http.Server, srv SystemHTTPServer) {
 	r.GET("/dept/delete", _System_DeleteDept0_HTTP_Handler(srv))
 	r.GET("/dept/detail", _System_GetDept0_HTTP_Handler(srv))
 	r.GET("/dept/list", _System_ListDept0_HTTP_Handler(srv))
-	r.GET("/perm/add", _System_AddPerm0_HTTP_Handler(srv))
+	r.POST("/perm/add", _System_AddPerm0_HTTP_Handler(srv))
 	r.GET("/perm/update", _System_UpdatePerm0_HTTP_Handler(srv))
 	r.GET("/perm/delete", _System_DeletePerm0_HTTP_Handler(srv))
 	r.GET("/perm/detail", _System_GetPerm0_HTTP_Handler(srv))
@@ -504,6 +504,9 @@ func _System_ListDept0_HTTP_Handler(srv SystemHTTPServer) func(ctx http.Context)
 func _System_AddPerm0_HTTP_Handler(srv SystemHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in AddPermRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
@@ -647,10 +650,10 @@ func (c *SystemHTTPClientImpl) AddDept(ctx context.Context, in *AddDeptRequest, 
 func (c *SystemHTTPClientImpl) AddPerm(ctx context.Context, in *AddPermRequest, opts ...http.CallOption) (*AddPermReply, error) {
 	var out AddPermReply
 	pattern := "/perm/add"
-	path := binding.EncodeURL(pattern, in, true)
+	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationSystemAddPerm))
 	opts = append(opts, http.PathTemplate(pattern))
-	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
 		return nil, err
 	}

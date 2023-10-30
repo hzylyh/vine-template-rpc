@@ -63,6 +63,7 @@ p, *, auth, read, /api.system.v1.System/AddUser
 p, *, auth, read, /api.system.v1.System/AddRole
 p, *, auth, read, /api.system.v1.System/BindUser
 
+p, *, auth, read, /api.system.v1.System/AddPerm
 
 p, *, *, read, /api.system.v1.System/Login
 `

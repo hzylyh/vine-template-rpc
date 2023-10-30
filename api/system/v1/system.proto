@@ -140,7 +140,8 @@ service System {
 	// ---- add 权限新增 ----
 	rpc AddPerm (AddPermRequest) returns (AddPermReply) {
 		option (google.api.http) = {
-			get: "/perm/add"
+			post: "/perm/add"
+			body: "*" // body: "name,description"
 		};
 	};
 	// ---- update 权限修改 ----

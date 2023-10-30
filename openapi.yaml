@@ -121,13 +121,19 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/api.system.v1.UpdateDeptReply'
     /perm/add:
-        get:
+        post:
             tags:
                 - System
             description: |-
                 -------- permission --------
                  ---- add 权限新增 ----
             operationId: System_AddPerm
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.AddPermRequest'
+                required: true
             responses:
                 "200":
                     description: OK
@@ -360,6 +366,10 @@ components:
         api.system.v1.AddPermReply:
             type: object
             properties: {}
+        api.system.v1.AddPermRequest:
+            type: object
+            properties: {}
+            description: '-------- permission --------'
         api.system.v1.AddRoleReply:
             type: object
             properties:
