@@ -43,7 +43,7 @@ func (s *SystemService) DeleteUser(ctx context.Context, request *v1.DeleteUserRe
 }
 
 func (s *SystemService) GetUser(ctx context.Context, request *v1.GetUserRequest) (*v1.GetUserReply, error) {
-	return &v1.GetUserReply{}, nil
+	return s.ub.GetUser(ctx, request)
 }
 
 func (s *SystemService) ListUser(ctx context.Context, request *v1.ListUserRequest) (*v1.Page, error) {

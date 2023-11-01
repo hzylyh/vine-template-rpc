@@ -320,11 +320,17 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/api.system.v1.DeleteUserReply'
     /user/detail:
-        get:
+        post:
             tags:
                 - System
             description: '---- get 获取用户详情 ----'
             operationId: System_GetUser
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.GetUserRequest'
+                required: true
             responses:
                 "200":
                     description: OK
@@ -453,7 +459,26 @@ components:
             properties: {}
         api.system.v1.GetUserReply:
             type: object
-            properties: {}
+            properties:
+                id:
+                    type: string
+                username:
+                    type: string
+                nickname:
+                    type: string
+                email:
+                    type: string
+                phone:
+                    type: string
+                avatar:
+                    type: string
+                status:
+                    type: string
+        api.system.v1.GetUserRequest:
+            type: object
+            properties:
+                username:
+                    type: string
         api.system.v1.ListDeptReply:
             type: object
             properties: {}

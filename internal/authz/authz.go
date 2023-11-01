@@ -59,6 +59,9 @@ m = (r.sub == p.sub || p.sub == "*") && (r.sub2 == p.sub2 || p.sub2 == "*") && r
 
 	ruleText := `
 p, *, auth, read, /api.system.v1.System/AddUser
+p, *, auth, read, /api.system.v1.System/UpdateUser
+p, *, auth, read, /api.system.v1.System/DeleteUser
+p, *, auth, read, /api.system.v1.System/GetUser
 p, *, auth, read, /api.system.v1.System/ListUser
 
 p, *, auth, read, /api.system.v1.System/AddRole

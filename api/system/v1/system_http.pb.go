@@ -108,7 +108,7 @@ func RegisterSystemHTTPServer(s *http.Server, srv SystemHTTPServer) {
 	r.POST("/user/add", _System_AddUser0_HTTP_Handler(srv))
 	r.GET("/user/update", _System_UpdateUser0_HTTP_Handler(srv))
 	r.GET("/user/delete", _System_DeleteUser0_HTTP_Handler(srv))
-	r.GET("/user/detail", _System_GetUser0_HTTP_Handler(srv))
+	r.POST("/user/detail", _System_GetUser0_HTTP_Handler(srv))
 	r.POST("/user/list", _System_ListUser0_HTTP_Handler(srv))
 	r.POST("/role/add", _System_AddRole0_HTTP_Handler(srv))
 	r.GET("/role/update", _System_UpdateRole0_HTTP_Handler(srv))
@@ -251,6 +251,9 @@ func _System_DeleteUser0_HTTP_Handler(srv SystemHTTPServer) func(ctx http.Contex
 func _System_GetUser0_HTTP_Handler(srv SystemHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in GetUserRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
@@ -796,10 +799,10 @@ func (c *SystemHTTPClientImpl) GetRole(ctx context.Context, in *GetRoleRequest, 
 func (c *SystemHTTPClientImpl) GetUser(ctx context.Context, in *GetUserRequest, opts ...http.CallOption) (*GetUserReply, error) {
 	var out GetUserReply
 	pattern := "/user/detail"
-	path := binding.EncodeURL(pattern, in, true)
+	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationSystemGetUser))
 	opts = append(opts, http.PathTemplate(pattern))
-	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
 		return nil, err
 	}

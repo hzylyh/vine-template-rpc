@@ -54,7 +54,8 @@ service System {
 	// ---- get 获取用户详情 ----
 	rpc GetUser (GetUserRequest) returns (GetUserReply) {
 		option (google.api.http) = {
-			get: "/user/detail"
+			post: "/user/detail"
+			body: "*" // body: "id,username"
 		};
 	};
 	// ---- list 获取用户列表 ----
@@ -232,9 +233,16 @@ message DeleteUserReply {
 }
 
 message GetUserRequest {
-
+	string username = 1;
 }
 message GetUserReply {
+	string id = 1;
+	string username = 2;
+	string nickname = 3;
+	string email = 4;
+	string phone = 5;
+	string avatar = 6;
+	string status = 7;
 
 }
 

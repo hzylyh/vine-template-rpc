@@ -125,7 +125,7 @@ const (
 	/**
 	 * token无效
 	 */
-	TOKEN_INVALID_CODE    = 403
+	TOKEN_INVALID_CODE    = 401
 	TOKEN_INVALID_MESSAGE = "token无效"
 	/**
 	 * token已过期

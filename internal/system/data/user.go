@@ -62,7 +62,9 @@ func (u *userRepo) Get(ctx context.Context, query *biz.User) (*biz.User, error) 
 }
 
 func (u *userRepo) List(ctx context.Context, user *biz.User) ([]*biz.User, error) {
-	list, err := u.data.db.User.Query().All(ctx)
+	list, err := u.data.db.User.
+		Query().
+		All(ctx)
 	if err != nil {
 		u.log.Errorf("list user error: %v", err)
 		return nil, err
@@ -72,7 +74,8 @@ func (u *userRepo) List(ctx context.Context, user *biz.User) ([]*biz.User, error
 		users = append(users, &biz.User{
 			Id:       item.ID,
 			Username: item.Username,
-			Password: item.Password,
+			Email:    item.Email,
+			Phone:    item.Phone,
 		})
 	}
 	return users, nil

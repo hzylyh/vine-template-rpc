@@ -33,7 +33,9 @@ type UserBiz struct {
 type User struct {
 	Id       uuid.UUID `json:"id"`
 	Username string    `json:"username"`
-	Password string    `json:"password"`
+	Password string    `json:"password,omitempty"`
+	Email    string    `json:"email"`
+	Phone    string    `json:"phone"`
 }
 
 // NewUserBiz .
@@ -68,7 +70,17 @@ func (u *UserBiz) DeleteUser(ctx context.Context, request *v1.DeleteUserRequest)
 }
 
 func (u *UserBiz) GetUser(ctx context.Context, request *v1.GetUserRequest) (*v1.GetUserReply, error) {
-	return &v1.GetUserReply{}, nil
+	user, err := u.repo.Get(ctx, &User{
+		Username: request.Username,
+	})
+	if err != nil {
+		u.log.Errorf("get user error: %v", err)
+		return nil, err
+	}
+	return &v1.GetUserReply{
+		Id:       user.Id.String(),
+		Username: user.Username,
+	}, nil
 }
 
 func (u *UserBiz) ListUser(ctx context.Context, request *v1.ListUserRequest) (*v1.Page, error) {
