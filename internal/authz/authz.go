@@ -70,6 +70,9 @@ p, *, auth, read, /api.system.v1.System/BindUser
 p, *, auth, read, /api.system.v1.System/AddPerm
 
 p, *, *, read, /api.system.v1.System/Login
+
+p, *, auth, read, /api.emonitor.v1.Emonitor/AddSite
+p, *, auth, read, /api.alarm.v1.Alarm/Trigger
 `
 
 	sa := stringadapter.NewAdapter(ruleText)

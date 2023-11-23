@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package api.emonitor.v1;
+import "google/api/annotations.proto";
+
+option go_package = "vine-template-rpc/api/emonitor/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.emonitor.v1";
+
+service Emonitor {
+	rpc AddSite (AddSiteRequest) returns (AddSiteReply) {
+		option (google.api.http) = {
+			post: "/site/add"
+			body: "*"
+		};
+	};
+	rpc UpdateSite (UpdateSiteRequest) returns (UpdateSiteReply) {
+		option (google.api.http) = {
+			post: "/site/update"
+			body: "*"
+		};
+	};
+	rpc DeleteSite (DeleteSiteRequest) returns (DeleteSiteReply) {
+		option (google.api.http) = {
+			post: "/site/delete"
+			body: "*"
+		};
+	};
+	rpc GetSite (GetSiteRequest) returns (GetSiteReply) {
+		option (google.api.http) = {
+			post: "/site/detail"
+			body: "*"
+		};
+	};
+	rpc ListSite (ListSiteRequest) returns (ListSiteReply) {
+		option (google.api.http) = {
+			post: "/site/list"
+			body: "*"
+		};
+	};
+}
+
+message AddSiteRequest {
+	string name = 1;
+}
+message AddSiteReply {
+	string id = 1;
+}
+
+message UpdateSiteRequest {}
+message UpdateSiteReply {}
+
+message DeleteSiteRequest {}
+message DeleteSiteReply {}
+
+message GetSiteRequest {}
+message GetSiteReply {}
+
+message ListSiteRequest {}
+message ListSiteReply {}
