@@ -392,7 +392,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.emonitor.v1.ListSiteReply'
+                                $ref: '#/components/schemas/vine.api.Page'
     /site/update:
         post:
             tags:
@@ -482,7 +482,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.system.v1.Page'
+                                $ref: '#/components/schemas/vine.api.Page'
     /user/update:
         get:
             tags:
@@ -532,12 +532,15 @@ components:
         api.emonitor.v1.GetSiteRequest:
             type: object
             properties: {}
-        api.emonitor.v1.ListSiteReply:
-            type: object
-            properties: {}
         api.emonitor.v1.ListSiteRequest:
             type: object
-            properties: {}
+            properties:
+                pageNum:
+                    type: integer
+                    format: int32
+                pageSize:
+                    type: integer
+                    format: int32
         api.emonitor.v1.UpdateSiteReply:
             type: object
             properties: {}
@@ -679,22 +682,6 @@ components:
         api.system.v1.LogoutReply:
             type: object
             properties: {}
-        api.system.v1.Page:
-            type: object
-            properties:
-                pageNum:
-                    type: integer
-                    format: int32
-                pageSize:
-                    type: integer
-                    format: int32
-                total:
-                    type: integer
-                    format: int32
-                list:
-                    type: array
-                    items:
-                        type: object
         api.system.v1.RegisterReply:
             type: object
             properties: {}
@@ -710,6 +697,22 @@ components:
         api.system.v1.UpdateUserReply:
             type: object
             properties: {}
+        vine.api.Page:
+            type: object
+            properties:
+                pageNum:
+                    type: integer
+                    format: int32
+                pageSize:
+                    type: integer
+                    format: int32
+                total:
+                    type: integer
+                    format: int32
+                list:
+                    type: array
+                    items:
+                        type: object
 tags:
     - name: Alarm
     - name: Emonitor

@@ -12,9 +12,10 @@ package biz
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/go-kratos/kratos/v2/log"
 	"vine-template-rpc/internal/alarm/pkg/judge"
 	"vine-template-rpc/pkg/jsonpath"
+
+	"github.com/go-kratos/kratos/v2/log"
 )
 
 type EngineBiz struct {
@@ -84,9 +85,9 @@ func (eb *EngineBiz) Trigger(id, data string) (err error) {
 	fmt.Println(res)
 
 	// 根据rule中的规则判断是否触发报警
-	if {
-		triggerAlarm()
-	}
+	// if {
+	// 	triggerAlarm()
+	// }
 
 	// 触发报警,告警怎么返回主应用，主应用是否开个websocket，统一接收第三方推送
 

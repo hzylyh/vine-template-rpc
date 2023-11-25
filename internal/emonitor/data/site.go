@@ -13,6 +13,7 @@ import (
 	"context"
 	"github.com/go-kratos/kratos/v2/log"
 	"vine-template-rpc/internal/emonitor/biz"
+	"vine-template-rpc/internal/emonitor/data/ent/site"
 )
 
 type siteRepo struct {
@@ -48,9 +49,10 @@ func (s siteRepo) Get(ctx context.Context, site *biz.Site) (*biz.Site, error) {
 	panic("implement me")
 }
 
-func (s siteRepo) List(ctx context.Context, site *biz.Site) ([]*biz.Site, error) {
-	//TODO implement me
-	panic("implement me")
+func (s siteRepo) List(ctx context.Context, siteInfo *biz.Site) ([]*biz.Site, error) {
+	var siteList []*biz.Site
+	err := s.data.db.Site.Query().Where().Select(site.FieldName).Scan(ctx, &siteList)
+	return siteList, err
 }
 
 func NewSiteRepo(data *Data, logger log.Logger) biz.SiteRepo {

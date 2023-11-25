@@ -11,9 +11,12 @@ package biz
 
 import (
 	"context"
+	"fmt"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/google/uuid"
 	emonitorV1 "vine-template-rpc/api/emonitor/v1"
+	"vine-template-rpc/internal/page"
+	"vine-template-rpc/pkg/pagehelper"
 )
 
 type SiteRepo interface {
@@ -58,8 +61,15 @@ func (e *SiteBiz) GetSite(ctx context.Context, request *emonitorV1.GetSiteReques
 	return nil, nil
 }
 
-func (e *SiteBiz) ListSite(ctx context.Context, request *emonitorV1.ListSiteRequest) (*emonitorV1.ListSiteReply, error) {
-	return nil, nil
+func (e *SiteBiz) ListSite(ctx context.Context, request *emonitorV1.ListSiteRequest) (*page.Page, error) {
+	list, err := e.repo.List(ctx, &Site{})
+	if err != nil {
+		return nil, err
+	}
+	fmt.Println(list)
+	pageClient := pagehelper.NewMemPage(list)
+	resWithPage := pageClient.Paginator(request.PageNum, request.PageSize)
+	return resWithPage, nil
 }
 
 // NewSiteBiz .

@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package api.emonitor.v1;
 import "google/api/annotations.proto";
+import "google/protobuf/struct.proto";
+import "page/page.proto";
 
 option go_package = "vine-template-rpc/api/emonitor/v1;v1";
 option java_multiple_files = true;
@@ -32,7 +34,7 @@ service Emonitor {
 			body: "*"
 		};
 	};
-	rpc ListSite (ListSiteRequest) returns (ListSiteReply) {
+	rpc ListSite (ListSiteRequest) returns (vine.api.Page) {
 		option (google.api.http) = {
 			post: "/site/list"
 			body: "*"
@@ -56,5 +58,10 @@ message DeleteSiteReply {}
 message GetSiteRequest {}
 message GetSiteReply {}
 
-message ListSiteRequest {}
-message ListSiteReply {}
+message ListSiteRequest {
+	int32 pageNum = 1;
+	int32 pageSize = 2;
+}
+message ListSiteReply {
+	repeated google.protobuf.Struct sites = 1;
+}

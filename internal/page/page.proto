@@ -1,0 +1,13 @@
+syntax = "proto3";
+package vine.api;
+
+import "google/protobuf/struct.proto";
+
+option go_package = "vine-template-rpc/internal/page";
+
+message Page {
+  int32 pageNum = 1;
+  int32 pageSize = 2;
+  int32 total = 3;
+  repeated google.protobuf.Struct list = 4;
+}

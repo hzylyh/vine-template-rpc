@@ -12,6 +12,7 @@ package service
 import (
 	"context"
 	v1 "vine-template-rpc/api/system/v1"
+	"vine-template-rpc/internal/page"
 )
 
 func (s *SystemService) AddUser(ctx context.Context, request *v1.AddUserRequest) (*v1.AddUserReply, error) {
@@ -46,6 +47,6 @@ func (s *SystemService) GetUser(ctx context.Context, request *v1.GetUserRequest)
 	return s.ub.GetUser(ctx, request)
 }
 
-func (s *SystemService) ListUser(ctx context.Context, request *v1.ListUserRequest) (*v1.Page, error) {
+func (s *SystemService) ListUser(ctx context.Context, request *v1.ListUserRequest) (*page.Page, error) {
 	return s.ub.ListUser(ctx, request)
 }

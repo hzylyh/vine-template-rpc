@@ -3,7 +3,7 @@ package pagehelper
 import (
 	"google.golang.org/protobuf/types/known/structpb"
 	"reflect"
-	pb "vine-template-rpc/api/system/v1"
+	pb "vine-template-rpc/internal/page"
 	"vine-template-rpc/pkg/pbtrans"
 )
 

@@ -14,6 +14,7 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/google/uuid"
 	v1 "vine-template-rpc/api/system/v1"
+	"vine-template-rpc/internal/page"
 	"vine-template-rpc/pkg/pagehelper"
 )
 
@@ -83,7 +84,7 @@ func (u *UserBiz) GetUser(ctx context.Context, request *v1.GetUserRequest) (*v1.
 	}, nil
 }
 
-func (u *UserBiz) ListUser(ctx context.Context, request *v1.ListUserRequest) (*v1.Page, error) {
+func (u *UserBiz) ListUser(ctx context.Context, request *v1.ListUserRequest) (*page.Page, error) {
 	userList, err := u.repo.List(ctx, &User{})
 	if err != nil {
 		u.log.Errorf("list user error: %v", err)

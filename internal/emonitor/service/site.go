@@ -12,6 +12,7 @@ package service
 import (
 	"context"
 	v1 "vine-template-rpc/api/emonitor/v1"
+	"vine-template-rpc/internal/page"
 )
 
 func (em *EMonitorService) AddSite(ctx context.Context, request *v1.AddSiteRequest) (*v1.AddSiteReply, error) {
@@ -30,6 +31,6 @@ func (em *EMonitorService) GetSite(ctx context.Context, request *v1.GetSiteReque
 	return em.sb.GetSite(ctx, request)
 }
 
-func (em *EMonitorService) ListSite(ctx context.Context, request *v1.ListSiteRequest) (*v1.ListSiteReply, error) { //nolint:dupl
+func (em *EMonitorService) ListSite(ctx context.Context, request *v1.ListSiteRequest) (*page.Page, error) { //nolint:dupl
 	return em.sb.ListSite(ctx, request)
 }
