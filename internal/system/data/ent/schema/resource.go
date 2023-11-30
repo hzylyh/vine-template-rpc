@@ -2,12 +2,20 @@ package schema
 
 import (
 	"entgo.io/ent"
+	"entgo.io/ent/dialect/entsql"
+	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/field"
 )
 
 // Resource holds the schema definition for the Resource entity.
 type Resource struct {
 	ent.Schema
+}
+
+func (Resource) Annotations() []schema.Annotation {
+	return []schema.Annotation{
+		entsql.Annotation{Table: "tb_resource"},
+	}
 }
 
 // Fields of the Resource.

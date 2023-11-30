@@ -11,7 +11,6 @@ package biz
 
 import (
 	"context"
-	"fmt"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/google/uuid"
 	emonitorV1 "vine-template-rpc/api/emonitor/v1"
@@ -66,7 +65,7 @@ func (e *SiteBiz) ListSite(ctx context.Context, request *emonitorV1.ListSiteRequ
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println(list)
+	// TODO: 改为数据库分页
 	pageClient := pagehelper.NewMemPage(list)
 	resWithPage := pageClient.Paginator(request.PageNum, request.PageSize)
 	return resWithPage, nil

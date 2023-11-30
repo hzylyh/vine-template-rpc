@@ -33,7 +33,7 @@ const (
 	// FieldStatus holds the string denoting the status field in the database.
 	FieldStatus = "status"
 	// Table holds the table name of the user in the database.
-	Table = "users"
+	Table = "tb_user"
 )
 
 // Columns holds all SQL columns for user fields.

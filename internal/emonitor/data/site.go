@@ -51,7 +51,11 @@ func (s siteRepo) Get(ctx context.Context, site *biz.Site) (*biz.Site, error) {
 
 func (s siteRepo) List(ctx context.Context, siteInfo *biz.Site) ([]*biz.Site, error) {
 	var siteList []*biz.Site
-	err := s.data.db.Site.Query().Where().Select(site.FieldName).Scan(ctx, &siteList)
+	err := s.data.db.Site.
+		Query().
+		Where().
+		Select(site.FieldName).
+		Scan(ctx, &siteList)
 	return siteList, err
 }
 

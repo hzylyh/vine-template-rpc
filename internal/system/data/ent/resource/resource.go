@@ -24,7 +24,7 @@ const (
 	// FieldStatus holds the string denoting the status field in the database.
 	FieldStatus = "status"
 	// Table holds the table name of the resource in the database.
-	Table = "resources"
+	Table = "tb_resource"
 )
 
 // Columns holds all SQL columns for resource fields.

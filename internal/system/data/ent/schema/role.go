@@ -2,12 +2,20 @@ package schema
 
 import (
 	"entgo.io/ent"
+	"entgo.io/ent/dialect/entsql"
+	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/field"
 )
 
 // Role holds the schema definition for the Role entity.
 type Role struct {
 	ent.Schema
+}
+
+func (Role) Annotations() []schema.Annotation {
+	return []schema.Annotation{
+		entsql.Annotation{Table: "tb_role"},
+	}
 }
 
 // Fields of the Role.

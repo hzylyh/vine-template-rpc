@@ -18,7 +18,7 @@ const (
 	// FieldStatus holds the string denoting the status field in the database.
 	FieldStatus = "status"
 	// Table holds the table name of the role in the database.
-	Table = "roles"
+	Table = "tb_role"
 )
 
 // Columns holds all SQL columns for role fields.

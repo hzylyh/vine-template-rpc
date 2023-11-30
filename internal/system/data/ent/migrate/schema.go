@@ -3,13 +3,14 @@
 package migrate
 
 import (
+	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/dialect/sql/schema"
 	"entgo.io/ent/schema/field"
 )
 
 var (
-	// ResourcesColumns holds the columns for the "resources" table.
-	ResourcesColumns = []*schema.Column{
+	// TbResourceColumns holds the columns for the "tb_resource" table.
+	TbResourceColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "name", Type: field.TypeString},
 		{Name: "code", Type: field.TypeString},
@@ -18,27 +19,27 @@ var (
 		{Name: "remark", Type: field.TypeString},
 		{Name: "status", Type: field.TypeInt, Default: 1},
 	}
-	// ResourcesTable holds the schema information for the "resources" table.
-	ResourcesTable = &schema.Table{
-		Name:       "resources",
-		Columns:    ResourcesColumns,
-		PrimaryKey: []*schema.Column{ResourcesColumns[0]},
+	// TbResourceTable holds the schema information for the "tb_resource" table.
+	TbResourceTable = &schema.Table{
+		Name:       "tb_resource",
+		Columns:    TbResourceColumns,
+		PrimaryKey: []*schema.Column{TbResourceColumns[0]},
 	}
-	// RolesColumns holds the columns for the "roles" table.
-	RolesColumns = []*schema.Column{
+	// TbRoleColumns holds the columns for the "tb_role" table.
+	TbRoleColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt64, Increment: true},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
 		{Name: "status", Type: field.TypeInt, Default: 1},
 	}
-	// RolesTable holds the schema information for the "roles" table.
-	RolesTable = &schema.Table{
-		Name:       "roles",
-		Columns:    RolesColumns,
-		PrimaryKey: []*schema.Column{RolesColumns[0]},
+	// TbRoleTable holds the schema information for the "tb_role" table.
+	TbRoleTable = &schema.Table{
+		Name:       "tb_role",
+		Columns:    TbRoleColumns,
+		PrimaryKey: []*schema.Column{TbRoleColumns[0]},
 	}
-	// UsersColumns holds the columns for the "users" table.
-	UsersColumns = []*schema.Column{
+	// TbUserColumns holds the columns for the "tb_user" table.
+	TbUserColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID},
 		{Name: "username", Type: field.TypeString, Unique: true},
 		{Name: "phone", Type: field.TypeString, Nullable: true},
@@ -51,19 +52,28 @@ var (
 		{Name: "type", Type: field.TypeString, Default: "1"},
 		{Name: "status", Type: field.TypeInt, Default: 1},
 	}
-	// UsersTable holds the schema information for the "users" table.
-	UsersTable = &schema.Table{
-		Name:       "users",
-		Columns:    UsersColumns,
-		PrimaryKey: []*schema.Column{UsersColumns[0]},
+	// TbUserTable holds the schema information for the "tb_user" table.
+	TbUserTable = &schema.Table{
+		Name:       "tb_user",
+		Columns:    TbUserColumns,
+		PrimaryKey: []*schema.Column{TbUserColumns[0]},
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
-		ResourcesTable,
-		RolesTable,
-		UsersTable,
+		TbResourceTable,
+		TbRoleTable,
+		TbUserTable,
 	}
 )
 
 func init() {
+	TbResourceTable.Annotation = &entsql.Annotation{
+		Table: "tb_resource",
+	}
+	TbRoleTable.Annotation = &entsql.Annotation{
+		Table: "tb_role",
+	}
+	TbUserTable.Annotation = &entsql.Annotation{
+		Table: "tb_user",
+	}
 }
