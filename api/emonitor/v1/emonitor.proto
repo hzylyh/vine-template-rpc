@@ -44,6 +44,17 @@ service Emonitor {
 
 message AddSiteRequest {
 	string name = 1;
+	string type = 2;
+	string dept = 3;
+	string owner = 4;
+	string mn = 5;
+	string remark = 6;
+	string lon = 7;
+	string lat = 8;
+	int32 status = 9;
+	string address = 10;
+	string lastServiceTime = 11;
+	string creator = 12;
 }
 message AddSiteReply {
 	string id = 1;

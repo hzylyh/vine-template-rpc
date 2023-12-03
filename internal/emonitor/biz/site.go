@@ -13,17 +13,19 @@ import (
 	"context"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/google/uuid"
+	"strconv"
 	emonitorV1 "vine-template-rpc/api/emonitor/v1"
+	"vine-template-rpc/internal/emonitor/data/schema"
 	"vine-template-rpc/internal/page"
 	"vine-template-rpc/pkg/pagehelper"
 )
 
 type SiteRepo interface {
-	Add(ctx context.Context, site *Site) (*Site, error)
+	Add(ctx context.Context, site *schema.Site) error
 	Update(ctx context.Context, site *Site) error
 	Delete(ctx context.Context, site *Site) error
 	Get(ctx context.Context, site *Site) (*Site, error)
-	List(ctx context.Context, site *Site) ([]*Site, error)
+	List(ctx context.Context, site *schema.Site) ([]*schema.Site, error)
 }
 
 type Site struct {
@@ -37,14 +39,25 @@ type SiteBiz struct {
 }
 
 func (e *SiteBiz) AddSite(ctx context.Context, request *emonitorV1.AddSiteRequest) (*emonitorV1.AddSiteReply, error) {
-	add, err := e.repo.Add(ctx, &Site{
-		Name: request.Name,
-	})
+	siteInfo := &schema.Site{
+		Name:            request.Name,
+		Type:            request.Type,
+		Dept:            request.Dept,
+		Owner:           request.Owner,
+		Remark:          request.Remark,
+		Lon:             request.Lon,
+		Lat:             request.Lat,
+		Status:          request.Status,
+		Address:         request.Address,
+		LastServiceTime: request.LastServiceTime,
+		Creator:         request.Creator,
+	}
+	err := e.repo.Add(ctx, siteInfo)
 	if err != nil {
 		return nil, err
 	}
 	return &emonitorV1.AddSiteReply{
-		Id: add.Id.String(),
+		Id: strconv.Itoa(int(siteInfo.ID)),
 	}, nil
 }
 
@@ -61,7 +74,7 @@ func (e *SiteBiz) GetSite(ctx context.Context, request *emonitorV1.GetSiteReques
 }
 
 func (e *SiteBiz) ListSite(ctx context.Context, request *emonitorV1.ListSiteRequest) (*page.Page, error) {
-	list, err := e.repo.List(ctx, &Site{})
+	list, err := e.repo.List(ctx, &schema.Site{})
 	if err != nil {
 		return nil, err
 	}

@@ -17,7 +17,8 @@ var EMonitorProviderSet = wire.NewSet(
 
 	// data common
 	data.NewData,
-	data.NewEntClient,
+	data.NewGormDB,
+	data.NewMysqlDialector,
 
 	//data biz
 	data.NewSiteRepo,

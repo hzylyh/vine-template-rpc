@@ -520,6 +520,29 @@ components:
             properties:
                 name:
                     type: string
+                type:
+                    type: string
+                dept:
+                    type: string
+                owner:
+                    type: string
+                mn:
+                    type: string
+                remark:
+                    type: string
+                lon:
+                    type: string
+                lat:
+                    type: string
+                status:
+                    type: integer
+                    format: int32
+                address:
+                    type: string
+                lastServiceTime:
+                    type: string
+                creator:
+                    type: string
         api.emonitor.v1.DeleteSiteReply:
             type: object
             properties: {}

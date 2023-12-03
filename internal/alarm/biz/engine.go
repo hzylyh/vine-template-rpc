@@ -27,7 +27,7 @@ func (eb *EngineBiz) Trigger(id, data string) (err error) {
 	// 根据id获取topic
 
 	// 订阅topic，获取数据
-	rule := &judge.Rule{
+	rule := judge.Rule{
 		Path: "$.store.book[0].price",
 		Op:   ">",
 		Val:  "10",
@@ -85,17 +85,16 @@ func (eb *EngineBiz) Trigger(id, data string) (err error) {
 	fmt.Println(res)
 
 	// 根据rule中的规则判断是否触发报警
-	// if {
-	// 	triggerAlarm()
-	// }
-
-	// 触发报警,告警怎么返回主应用，主应用是否开个websocket，统一接收第三方推送
+	cm := judge.NewJudge(rule, "")
+	jres, _ := cm.Judge()
+	if jres {
+		triggerAlarm()
+	}
 
 	return
 }
 
 func triggerAlarm() {
-	// 告警信息通过某种形式传递给主应用
 	fmt.Println("dddd")
 }
 

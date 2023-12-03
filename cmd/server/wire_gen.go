@@ -43,8 +43,9 @@ func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*
 	roleBiz := biz.NewRoleBiz(roleRepo, userRepo, enforcer, logger)
 	permBiz := biz.NewPermBiz(enforcer, logger)
 	systemService := service.NewSystemService(userBiz, authBiz, roleBiz, permBiz)
-	entClient := data2.NewEntClient(confData, logger)
-	data3, cleanup2, err := data2.NewData(entClient, logger)
+	dialector := data2.NewMysqlDialector(confData)
+	db := data2.NewGormDB(dialector, logger)
+	data3, cleanup2, err := data2.NewData(db, logger)
 	if err != nil {
 		cleanup()
 		return nil, nil, err

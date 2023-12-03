@@ -13,7 +13,7 @@ import (
 	"context"
 	"github.com/go-kratos/kratos/v2/log"
 	"vine-template-rpc/internal/emonitor/biz"
-	"vine-template-rpc/internal/emonitor/data/ent/site"
+	"vine-template-rpc/internal/emonitor/data/schema"
 )
 
 type siteRepo struct {
@@ -21,17 +21,8 @@ type siteRepo struct {
 	log  *log.Helper
 }
 
-func (s siteRepo) Add(ctx context.Context, site *biz.Site) (*biz.Site, error) {
-	save, err := s.data.db.Site.
-		Create().
-		SetName(site.Name).
-		Save(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return &biz.Site{
-		Id: save.ID,
-	}, nil
+func (s siteRepo) Add(ctx context.Context, site *schema.Site) error {
+	return s.data.gdb.Create(site).Error
 }
 
 func (s siteRepo) Update(ctx context.Context, site *biz.Site) error {
@@ -49,14 +40,10 @@ func (s siteRepo) Get(ctx context.Context, site *biz.Site) (*biz.Site, error) {
 	panic("implement me")
 }
 
-func (s siteRepo) List(ctx context.Context, siteInfo *biz.Site) ([]*biz.Site, error) {
-	var siteList []*biz.Site
-	err := s.data.db.Site.
-		Query().
-		Where().
-		Select(site.FieldName).
-		Scan(ctx, &siteList)
-	return siteList, err
+func (s siteRepo) List(ctx context.Context, site *schema.Site) ([]*schema.Site, error) {
+	sites := make([]*schema.Site, 0)
+	err := s.data.gdb.Where(site).Find(&sites).Error
+	return sites, err
 }
 
 func NewSiteRepo(data *Data, logger log.Logger) biz.SiteRepo {
