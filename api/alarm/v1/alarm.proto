@@ -27,8 +27,12 @@ service Alarm {
 	};
 }
 
-message AddAlarmRuleRequest {}
-message AddAlarmRuleReply {}
+message AddAlarmRuleRequest {
+	string info = 1;
+}
+message AddAlarmRuleReply {
+	string message = 1;
+}
 
 message UpdateAlarmRequest {}
 message UpdateAlarmReply {}

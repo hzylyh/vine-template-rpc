@@ -500,10 +500,14 @@ components:
     schemas:
         api.alarm.v1.AddAlarmRuleReply:
             type: object
-            properties: {}
+            properties:
+                message:
+                    type: string
         api.alarm.v1.AddAlarmRuleRequest:
             type: object
-            properties: {}
+            properties:
+                info:
+                    type: string
         api.alarm.v1.TriggerReply:
             type: object
             properties: {}

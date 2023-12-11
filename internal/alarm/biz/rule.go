@@ -8,3 +8,24 @@
  */
 
 package biz
+
+import (
+	"fmt"
+	"github.com/go-kratos/kratos/v2/log"
+)
+
+type RuleBiz struct {
+	log *log.Helper
+}
+
+func (rb *RuleBiz) Add(info string) {
+	fmt.Println(info)
+}
+
+func NewRuleBiz(
+	logger log.Logger,
+) *RuleBiz {
+	return &RuleBiz{
+		log: log.NewHelper(log.With(logger, "module", "biz/rule")),
+	}
+}
