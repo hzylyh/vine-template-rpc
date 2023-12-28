@@ -18,7 +18,7 @@ import (
 )
 
 type RoleRepo interface {
-	Add(ctx context.Context, role *Role) (*Role, error)
+	Add(ctx context.Context, role *Role) error
 	Update(ctx context.Context, role *Role) error
 	Delete(ctx context.Context, role *Role) error
 	Get(ctx context.Context, role *Role) (*Role, error)
@@ -53,7 +53,7 @@ func NewRoleBiz(
 }
 
 func (r *RoleBiz) AddRole(ctx context.Context, request *v1.AddRoleRequest) (*v1.AddRoleReply, error) {
-	role, err := r.repo.Add(ctx, &Role{
+	err := r.repo.Add(ctx, &Role{
 		Name:        request.Name,
 		Description: request.Description,
 	})
@@ -61,10 +61,7 @@ func (r *RoleBiz) AddRole(ctx context.Context, request *v1.AddRoleRequest) (*v1.
 		r.log.Errorf("add role error: %v", err)
 		return nil, err
 	}
-	return &v1.AddRoleReply{
-		Id:   role.Id,
-		Name: role.Name,
-	}, nil
+	return &v1.AddRoleReply{}, nil
 }
 
 func (r *RoleBiz) BindUser(ctx context.Context, request *v1.BindUserRequest) (*v1.BindUserReply, error) {

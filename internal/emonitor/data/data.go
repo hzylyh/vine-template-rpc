@@ -11,10 +11,7 @@ package data
 
 import (
 	"github.com/go-kratos/kratos/v2/log"
-	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"vine-template-rpc/internal/conf"
-	"vine-template-rpc/internal/emonitor/data/schema"
 )
 
 // Data .
@@ -43,27 +40,27 @@ type Data struct {
 //}
 
 // NewGormDB gorm数据库
-func NewGormDB(dialector *gorm.Dialector, logger log.Logger) *gorm.DB {
-	log := log.NewHelper(log.With(logger, "module", "emonitor-service/data/gorm"))
-
-	db, err := gorm.Open(*dialector, &gorm.Config{
-		//Logger: logger.,
-	})
-	if err != nil {
-		log.Fatalf("failed opening connection to db: %v", err)
-	}
-
-	if err := db.AutoMigrate(schema.Schemas...); err != nil {
-		log.Fatalf("failed creating schema resources: %v", err)
-	}
-	return db
-}
-
-// NewMysqlDialector Mysql Dialector
-func NewMysqlDialector(conf *conf.Data) *gorm.Dialector {
-	open := mysql.Open(conf.Database.Source)
-	return &open
-}
+//func NewGormDB(dialector *gorm.Dialector, logger log.Logger) *gorm.DB {
+//	log := log.NewHelper(log.With(logger, "module", "emonitor-service/data/gorm"))
+//
+//	db, err := gorm.Open(*dialector, &gorm.Config{
+//		//Logger: logger.,
+//	})
+//	if err != nil {
+//		log.Fatalf("failed opening connection to db: %v", err)
+//	}
+//
+//	if err := db.AutoMigrate(schema.Schemas...); err != nil {
+//		log.Fatalf("failed creating schema resources: %v", err)
+//	}
+//	return db
+//}
+//
+//// NewMysqlDialector Mysql Dialector
+//func NewMysqlDialector(conf *conf.Data) *gorm.Dialector {
+//	open := mysql.Open(conf.Database.Source)
+//	return &open
+//}
 
 // NewData .
 func NewData(

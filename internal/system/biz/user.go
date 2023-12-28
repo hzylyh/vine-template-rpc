@@ -19,7 +19,7 @@ import (
 )
 
 type UserRepo interface {
-	Add(ctx context.Context, user *User) (*User, error)
+	Add(ctx context.Context, user *User) error
 	Update(ctx context.Context, user *User) error
 	Delete(ctx context.Context, user *User) error
 	Get(ctx context.Context, user *User) (*User, error)
@@ -48,7 +48,7 @@ func NewUserBiz(repo UserRepo, logger log.Logger) *UserBiz {
 }
 
 func (u *UserBiz) AddUser(ctx context.Context, request *v1.AddUserRequest) (*v1.AddUserReply, error) {
-	user, err := u.repo.Add(ctx, &User{
+	err := u.repo.Add(ctx, &User{
 		Username: request.Username,
 		Password: request.Password,
 	})
@@ -56,10 +56,7 @@ func (u *UserBiz) AddUser(ctx context.Context, request *v1.AddUserRequest) (*v1.
 		u.log.Errorf("add user error: %v", err)
 		return nil, err
 	}
-	return &v1.AddUserReply{
-		Id:       user.Id.String(),
-		Username: user.Username,
-	}, nil
+	return &v1.AddUserReply{}, nil
 }
 
 func (u *UserBiz) UpdateUser(ctx context.Context, request *v1.UpdateUserRequest) (*v1.UpdateUserReply, error) {

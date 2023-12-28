@@ -29,9 +29,12 @@ var SystemProviderSet = wire.NewSet(
 
 	// data common
 	data.NewData,
-	data.NewEntClient,
+	data.NewRedisClient,
+	data.NewGormDB,
+	data.NewMysqlDialector,
 
 	//data biz
 	data.NewUserRepo,
 	data.NewRoleRepo,
+	data.NewWechatRepo,
 )

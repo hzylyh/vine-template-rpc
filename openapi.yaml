@@ -697,6 +697,10 @@ components:
         api.system.v1.LoginRequest:
             type: object
             properties:
+                type:
+                    type: string
+                code:
+                    type: string
                 username:
                     type: string
                 password:

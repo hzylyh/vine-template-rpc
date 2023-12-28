@@ -13,7 +13,6 @@ import (
 	"context"
 	"github.com/go-kratos/kratos/v2/log"
 	"vine-template-rpc/internal/system/biz"
-	"vine-template-rpc/internal/system/data/ent/user"
 )
 
 type userRepo struct {
@@ -21,19 +20,8 @@ type userRepo struct {
 	log  *log.Helper
 }
 
-func (u *userRepo) Add(ctx context.Context, user *biz.User) (*biz.User, error) {
-	save, err := u.data.db.User.
-		Create().
-		SetUsername(user.Username).
-		SetPassword(user.Password).
-		Save(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return &biz.User{
-		Id:       save.ID,
-		Username: save.Username,
-	}, nil
+func (u *userRepo) Add(ctx context.Context, user *biz.User) error {
+	return u.data.gdb.Create(user).Error
 }
 
 func (u *userRepo) Update(ctx context.Context, user *biz.User) error {
@@ -46,38 +34,26 @@ func (u *userRepo) Delete(ctx context.Context, user *biz.User) error {
 	panic("implement me")
 }
 
-func (u *userRepo) Get(ctx context.Context, query *biz.User) (*biz.User, error) {
-	info, err := u.data.db.User.Query().Where(
-		user.UsernameEQ(query.Username),
-	).Only(ctx)
+func (u *userRepo) Get(ctx context.Context, query *biz.User) (user *biz.User, err error) {
+
+	err = u.data.gdb.Where(query).First(user).Error
 	if err != nil {
 		u.log.Errorf("get user error: %v", err)
 		return nil, err
 	}
-	return &biz.User{
-		Id:       info.ID,
-		Username: info.Username,
-		Password: info.Password,
-	}, nil
+	return user, nil
 }
 
-func (u *userRepo) List(ctx context.Context, user *biz.User) ([]*biz.User, error) {
-	list, err := u.data.db.User.
-		Query().
-		All(ctx)
+func (u *userRepo) List(ctx context.Context, user *biz.User) (users []*biz.User, err error) {
+	err = u.data.gdb.Where(user).Find(users).Error
 	if err != nil {
-		u.log.Errorf("list user error: %v", err)
+		u.log.Errorf("get user error: %v", err)
 		return nil, err
 	}
-	var users []*biz.User
-	for _, item := range list {
-		users = append(users, &biz.User{
-			Id:       item.ID,
-			Username: item.Username,
-			Email:    item.Email,
-			Phone:    item.Phone,
-		})
+	for _, user := range users {
+		user.Password = ""
 	}
+
 	return users, nil
 }
 

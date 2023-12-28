@@ -30,21 +30,22 @@ import (
 
 // wireApp init kratos application.
 func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*kratos.App, func(), error) {
-	client := data.NewEntClient(confData, logger)
-	dataData, cleanup, err := data.NewData(client, logger)
+	dialector := data.NewMysqlDialector(confData)
+	db := data.NewGormDB(dialector, logger)
+	client := data.NewRedisClient(confData, logger)
+	dataData, cleanup, err := data.NewData(db, client, logger)
 	if err != nil {
 		return nil, nil, err
 	}
 	userRepo := data.NewUserRepo(dataData, logger)
 	userBiz := biz.NewUserBiz(userRepo, logger)
-	authBiz := biz.NewAuthBiz(userRepo, logger)
+	authRepo := data.NewWechatRepo(dataData, logger)
+	authBiz := biz.NewAuthBiz(authRepo, userRepo, logger)
 	roleRepo := data.NewRoleRepo(dataData, logger)
 	enforcer := authz.NewAuthz(confData)
 	roleBiz := biz.NewRoleBiz(roleRepo, userRepo, enforcer, logger)
 	permBiz := biz.NewPermBiz(enforcer, logger)
 	systemService := service.NewSystemService(userBiz, authBiz, roleBiz, permBiz)
-	dialector := data2.NewMysqlDialector(confData)
-	db := data2.NewGormDB(dialector, logger)
 	data3, cleanup2, err := data2.NewData(db, logger)
 	if err != nil {
 		cleanup()
