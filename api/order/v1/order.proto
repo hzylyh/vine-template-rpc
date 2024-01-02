@@ -1,0 +1,41 @@
+syntax = "proto3";
+//
+package api.order.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/struct.proto";
+import "page/page.proto";
+
+option go_package = "vine-template-rpc/api/order/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.order.v1";
+
+service Order {
+	rpc AddOrder (AddOrderRequest) returns (AddOrderReply){
+		option (google.api.http) = {
+			post: "/order/add"
+			body: "*"
+		};
+	};
+	rpc UpdateOrder (UpdateOrderRequest) returns (UpdateOrderReply);
+	rpc DeleteOrder (DeleteOrderRequest) returns (DeleteOrderReply);
+	rpc GetOrder (GetOrderRequest) returns (GetOrderReply);
+	rpc ListOrder (ListOrderRequest) returns (vine.api.Page);
+}
+
+message AddOrderRequest {
+	string name = 1;
+}
+message AddOrderReply {}
+
+message UpdateOrderRequest {}
+message UpdateOrderReply {}
+
+message DeleteOrderRequest {}
+message DeleteOrderReply {}
+
+message GetOrderRequest {}
+message GetOrderReply {}
+
+message ListOrderRequest {}
+message ListOrderReply {}

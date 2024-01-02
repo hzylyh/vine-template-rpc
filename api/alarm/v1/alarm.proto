@@ -28,7 +28,8 @@ service Alarm {
 }
 
 message AddAlarmRuleRequest {
-	string info = 1;
+	string position = 1;
+	int32 temperature = 2;
 }
 message AddAlarmRuleReply {
 	string message = 1;

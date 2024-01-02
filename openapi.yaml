@@ -156,6 +156,24 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/api.system.v1.UpdateDeptReply'
+    /order/add:
+        post:
+            tags:
+                - Order
+            operationId: Order_AddOrder
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.order.v1.AddOrderRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.order.v1.AddOrderReply'
     /perm/add:
         post:
             tags:
@@ -506,8 +524,11 @@ components:
         api.alarm.v1.AddAlarmRuleRequest:
             type: object
             properties:
-                info:
+                position:
                     type: string
+                temperature:
+                    type: integer
+                    format: int32
         api.alarm.v1.TriggerReply:
             type: object
             properties: {}
@@ -574,6 +595,14 @@ components:
         api.emonitor.v1.UpdateSiteRequest:
             type: object
             properties: {}
+        api.order.v1.AddOrderReply:
+            type: object
+            properties: {}
+        api.order.v1.AddOrderRequest:
+            type: object
+            properties:
+                name:
+                    type: string
         api.system.v1.AddDeptReply:
             type: object
             properties: {}
@@ -743,4 +772,5 @@ components:
 tags:
     - name: Alarm
     - name: Emonitor
+    - name: Order
     - name: System
