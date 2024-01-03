@@ -7,11 +7,13 @@ import (
 	"github.com/go-kratos/kratos/v2/transport/http"
 	alarmV1 "vine-template-rpc/api/alarm/v1"
 	emonitorV1 "vine-template-rpc/api/emonitor/v1"
+	orderV1 "vine-template-rpc/api/order/v1"
 	systemV1 "vine-template-rpc/api/system/v1"
 	alarmService "vine-template-rpc/internal/alarm/service"
 	"vine-template-rpc/internal/conf"
 	emonitorService "vine-template-rpc/internal/emonitor/service"
 	"vine-template-rpc/internal/middleware"
+	orderService "vine-template-rpc/internal/order/service"
 	systemService "vine-template-rpc/internal/system/service"
 )
 
@@ -21,6 +23,7 @@ func NewHTTPServer(
 	system *systemService.SystemService,
 	emonitor *emonitorService.EMonitorService,
 	alarm *alarmService.AlarmService,
+	order *orderService.OrderService,
 	logger log.Logger,
 	enforcer *casbin.Enforcer,
 ) *http.Server {
@@ -43,5 +46,6 @@ func NewHTTPServer(
 	systemV1.RegisterSystemHTTPServer(srv, system)
 	emonitorV1.RegisterEmonitorHTTPServer(srv, emonitor)
 	alarmV1.RegisterAlarmHTTPServer(srv, alarm)
+	orderV1.RegisterOrderHTTPServer(srv, order)
 	return srv
 }

@@ -16,6 +16,9 @@ import (
 	biz2 "vine-template-rpc/internal/emonitor/biz"
 	data2 "vine-template-rpc/internal/emonitor/data"
 	service2 "vine-template-rpc/internal/emonitor/service"
+	biz4 "vine-template-rpc/internal/order/biz"
+	data3 "vine-template-rpc/internal/order/data"
+	service4 "vine-template-rpc/internal/order/service"
 	"vine-template-rpc/internal/server"
 	"vine-template-rpc/internal/system/biz"
 	"vine-template-rpc/internal/system/data"
@@ -30,36 +33,46 @@ import (
 
 // wireApp init kratos application.
 func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*kratos.App, func(), error) {
-	dialector := data.NewMysqlDialector(confData)
-	db := data.NewGormDB(dialector, logger)
-	client := data.NewRedisClient(confData, logger)
-	dataData, cleanup, err := data.NewData(db, client, logger)
+	client := data.NewEntClient(confData, logger)
+	dataData, cleanup, err := data.NewData(client, logger)
 	if err != nil {
 		return nil, nil, err
 	}
 	userRepo := data.NewUserRepo(dataData, logger)
 	userBiz := biz.NewUserBiz(userRepo, logger)
-	authRepo := data.NewWechatRepo(dataData, logger)
-	authBiz := biz.NewAuthBiz(authRepo, userRepo, logger)
+	authBiz := biz.NewAuthBiz(userRepo, logger)
 	roleRepo := data.NewRoleRepo(dataData, logger)
 	enforcer := authz.NewAuthz(confData)
 	roleBiz := biz.NewRoleBiz(roleRepo, userRepo, enforcer, logger)
 	permBiz := biz.NewPermBiz(enforcer, logger)
 	systemService := service.NewSystemService(userBiz, authBiz, roleBiz, permBiz)
-	data3, cleanup2, err := data2.NewData(db, logger)
+	dialector := data2.NewMysqlDialector(confData)
+	db := data2.NewGormDB(dialector, logger)
+	data4, cleanup2, err := data2.NewData(db, logger)
 	if err != nil {
 		cleanup()
 		return nil, nil, err
 	}
-	siteRepo := data2.NewSiteRepo(data3, logger)
+	siteRepo := data2.NewSiteRepo(data4, logger)
 	siteBiz := biz2.NewSiteBiz(siteRepo, logger)
 	eMonitorService := service2.NewEMonitorService(siteBiz)
 	engineBiz := biz3.NewEnginBiz(logger)
-	alarmService := service3.NewAlarmService(engineBiz)
-	grpcServer := server.NewGRPCServer(confServer, systemService, eMonitorService, alarmService, logger, enforcer)
-	httpServer := server.NewHTTPServer(confServer, systemService, eMonitorService, alarmService, logger, enforcer)
+	ruleBiz := biz3.NewRuleBiz(logger)
+	alarmService := service3.NewAlarmService(engineBiz, ruleBiz)
+	data5, cleanup3, err := data3.NewData(db, logger)
+	if err != nil {
+		cleanup2()
+		cleanup()
+		return nil, nil, err
+	}
+	orderRepo := data3.NewOrderRepo(data5, logger)
+	orderBiz := biz4.NewOrderBiz(orderRepo, logger)
+	orderService := service4.NewOrderService(orderBiz)
+	grpcServer := server.NewGRPCServer(confServer, systemService, eMonitorService, alarmService, orderService, logger, enforcer)
+	httpServer := server.NewHTTPServer(confServer, systemService, eMonitorService, alarmService, orderService, logger, enforcer)
 	app := newApp(logger, grpcServer, httpServer)
 	return app, func() {
+		cleanup3()
 		cleanup2()
 		cleanup()
 	}, nil

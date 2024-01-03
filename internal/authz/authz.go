@@ -74,6 +74,9 @@ p, *, *, read, /api.system.v1.System/Login
 p, *, auth, read, /api.emonitor.v1.Emonitor/AddSite
 p, *, auth, read, /api.emonitor.v1.Emonitor/ListSite
 p, *, auth, read, /api.alarm.v1.Alarm/Trigger
+p, *, *, read, /api.alarm.v1.Alarm/AddAlarmRule
+
+p, *, auth, read, /api.order.v1.Order/AddOrder
 `
 
 	sa := stringadapter.NewAdapter(ruleText)

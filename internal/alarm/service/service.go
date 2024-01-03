@@ -17,12 +17,15 @@ import (
 type AlarmService struct {
 	v1.UnimplementedAlarmServer
 	eb *biz.EngineBiz
+	rb *biz.RuleBiz
 }
 
 func NewAlarmService(
 	eb *biz.EngineBiz,
+	rb *biz.RuleBiz,
 ) *AlarmService {
 	return &AlarmService{
 		eb: eb,
+		rb: rb,
 	}
 }

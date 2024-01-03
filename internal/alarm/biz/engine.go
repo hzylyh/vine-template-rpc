@@ -10,12 +10,9 @@
 package biz
 
 import (
-	"encoding/json"
 	"fmt"
-	"vine-template-rpc/internal/alarm/pkg/judge"
-	"vine-template-rpc/pkg/jsonpath"
-
 	"github.com/go-kratos/kratos/v2/log"
+	"vine-template-rpc/internal/alarm/pkg/judge"
 )
 
 type EngineBiz struct {
@@ -71,21 +68,21 @@ func (eb *EngineBiz) Trigger(id, data string) (err error) {
 }
 `
 
-	// 根据jsonpath获取data中对应的值
-	var jsonData interface{}
-	err = json.Unmarshal([]byte(data), &jsonData)
-	if err != nil {
-		return err
-	}
-	res, err := jsonpath.JsonPathLookup(jsonData, rule.Path)
-	if err != nil {
-		return err
-	}
-	// 根据id获取rule
-	fmt.Println(res)
+	//// 根据jsonpath获取data中对应的值
+	//var jsonData interface{}
+	//err = json.Unmarshal([]byte(data), &jsonData)
+	//if err != nil {
+	//	return err
+	//}
+	//res, err := jsonpath.JsonPathLookup(jsonData, rule.Path)
+	//if err != nil {
+	//	return err
+	//}
+	//// 根据id获取rule
+	//fmt.Println(res)
 
 	// 根据rule中的规则判断是否触发报警
-	cm := judge.NewJudge(rule, "")
+	cm := judge.NewJudge(rule, data)
 	jres, _ := cm.Judge()
 	if jres {
 		triggerAlarm()

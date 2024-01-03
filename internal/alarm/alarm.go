@@ -23,6 +23,7 @@ var AlarmProviderSet = wire.NewSet(
 
 	// biz
 	biz.NewEnginBiz,
+	biz.NewRuleBiz,
 
 	// data common
 	data.NewData,
