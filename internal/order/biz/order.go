@@ -24,6 +24,14 @@ type OrderRepo interface {
 	//List(ctx context.Context, site *schema.Site) ([]*schema.Site, error)
 }
 
+type OrderHistoryRepo interface {
+	Add(ctx context.Context, history *schema.OrderHistory) error
+	//Update(ctx context.Context, site *Site) error
+	//Delete(ctx context.Context, site *Site) error
+	//Get(ctx context.Context, site *Site) (*Site, error)
+	//List(ctx context.Context, site *schema.Site) ([]*schema.Site, error)
+}
+
 type OrderBiz struct {
 	repo OrderRepo
 	log  *log.Helper

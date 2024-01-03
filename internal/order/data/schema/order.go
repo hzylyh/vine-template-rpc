@@ -14,6 +14,10 @@ import "gorm.io/gorm"
 type Order struct {
 	gorm.Model
 	Name string `json:"name,omitempty" gorm:"column:name;comment:工单名称"`
+	// 关联的设备
+	EquipmentID uint   `json:"equipment_id,omitempty" gorm:"column:equipment_id;comment:设备ID"`
+	Describe    string `json:"describe,omitempty" gorm:"column:describe;comment:工单描述"`
+	Status      int    `json:"status,omitempty" gorm:"column:status;comment:工单状态"`
 }
 
 func (Order) TableName() string {

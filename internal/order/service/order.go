@@ -15,6 +15,5 @@ import (
 )
 
 func (os *OrderService) AddOrder(ctx context.Context, request *v1.AddOrderRequest) (*v1.AddOrderReply, error) {
-
 	return os.ob.AddOrder(ctx, request)
 }

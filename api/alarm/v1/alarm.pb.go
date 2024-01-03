@@ -27,7 +27,7 @@ type AddAlarmRuleRequest struct {
 	unknownFields protoimpl.UnknownFields
 
 	Position    string `protobuf:"bytes,1,opt,name=position,proto3" json:"position,omitempty"`
-	Temperature int32  `protobuf:"varint,2,opt,name=temperature,proto3" json:"temperature,omitempty"`
+	Temperature int32  `protobuf:"varint,2,opt,name=temperature,proto3" json:"temperature,omitempty"` //	string info = 1;
 }
 
 func (x *AddAlarmRuleRequest) Reset() {
