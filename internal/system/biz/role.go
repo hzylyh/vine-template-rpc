@@ -81,8 +81,8 @@ func (r *RoleBiz) BindUser(ctx context.Context, request *v1.BindUserRequest) (*v
 			return nil, err
 		}
 		//userWithID := user.Username + "_" + strconv.FormatInt(user.Id, 10)
-		userId := user.Id
-		_, err = r.enforcer.AddRoleForUser(userId.String(), strconv.FormatInt(roleInfo.Id, 10))
+		userId := user.ID
+		_, err = r.enforcer.AddRoleForUser(strconv.Itoa(int(userId)), strconv.FormatInt(roleInfo.Id, 10))
 		if err != nil {
 			r.log.Errorf("bind user error: %v", err)
 			return nil, err

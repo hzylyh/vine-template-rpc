@@ -25,6 +25,22 @@ func (s orderRepo) Add(ctx context.Context, order *schema.Order) error {
 	return s.data.gdb.Create(order).Error
 }
 
+func (s orderRepo) Update(ctx context.Context, order *schema.Order) error {
+	return s.data.gdb.Save(&order).Error
+}
+
+func (s orderRepo) Delete(ctx context.Context, order *schema.Order) error {
+	panic("还没实现我哦")
+}
+
+func (s orderRepo) Get(ctx context.Context, order *schema.Order) (*schema.Order, error) {
+	panic("还没实现我哦")
+}
+
+func (s orderRepo) List(ctx context.Context, order *schema.Order) ([]*schema.Order, error) {
+	panic("还没实现我哦")
+}
+
 func NewOrderRepo(data *Data, logger log.Logger) biz.OrderRepo {
 	return &orderRepo{
 		data: data,

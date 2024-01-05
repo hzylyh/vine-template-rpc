@@ -13,8 +13,10 @@ import (
 	"context"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/google/uuid"
+	"strconv"
 	v1 "vine-template-rpc/api/system/v1"
 	"vine-template-rpc/internal/page"
+	"vine-template-rpc/internal/system/data/schema"
 	"vine-template-rpc/pkg/pagehelper"
 )
 
@@ -22,7 +24,7 @@ type UserRepo interface {
 	Add(ctx context.Context, user *User) error
 	Update(ctx context.Context, user *User) error
 	Delete(ctx context.Context, user *User) error
-	Get(ctx context.Context, user *User) (*User, error)
+	Get(ctx context.Context, user *User) (*schema.User, error)
 	List(ctx context.Context, user *User) ([]*User, error)
 }
 
@@ -76,7 +78,7 @@ func (u *UserBiz) GetUser(ctx context.Context, request *v1.GetUserRequest) (*v1.
 		return nil, err
 	}
 	return &v1.GetUserReply{
-		Id:       user.Id.String(),
+		Id:       strconv.Itoa(int(user.ID)),
 		Username: user.Username,
 	}, nil
 }

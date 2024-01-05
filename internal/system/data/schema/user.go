@@ -18,3 +18,7 @@ type User struct {
 	Type         int    `json:"type" gorm:"column:type;comment:类型,0: 管理员 1: 普通用户"` // 0: 管理员 1: 普通用户
 	Status       int    `json:"status" gorm:"column:status;comment:状态"`            // 0: 禁用 1: 启用
 }
+
+func (User) TableName() string {
+	return "tb_user"
+}

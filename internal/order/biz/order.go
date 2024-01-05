@@ -12,16 +12,18 @@ package biz
 import (
 	"context"
 	"github.com/go-kratos/kratos/v2/log"
+	"gorm.io/gorm"
 	orderV1 "vine-template-rpc/api/order/v1"
 	"vine-template-rpc/internal/order/data/schema"
+	"vine-template-rpc/internal/page"
 )
 
 type OrderRepo interface {
 	Add(ctx context.Context, site *schema.Order) error
-	//Update(ctx context.Context, site *Site) error
-	//Delete(ctx context.Context, site *Site) error
-	//Get(ctx context.Context, site *Site) (*Site, error)
-	//List(ctx context.Context, site *schema.Site) ([]*schema.Site, error)
+	Update(ctx context.Context, site *schema.Order) error
+	Delete(ctx context.Context, site *schema.Order) error
+	Get(ctx context.Context, site *schema.Order) (*schema.Order, error)
+	List(ctx context.Context, site *schema.Order) ([]*schema.Order, error)
 }
 
 type OrderHistoryRepo interface {
@@ -60,8 +62,21 @@ func (ob *OrderBiz) GetOrder(ctx context.Context, request *orderV1.GetOrderReque
 	return nil, nil
 }
 
-func (ob *OrderBiz) ListOrder(ctx context.Context, request *orderV1.ListOrderRequest) (*orderV1.ListOrderReply, error) {
+func (ob *OrderBiz) ListOrder(ctx context.Context, request *orderV1.ListOrderRequest) (*page.Page, error) {
 	return nil, nil
+}
+
+func (ob *OrderBiz) ReviewOrder(ctx context.Context, request *orderV1.ReviewOrderRequest) (*orderV1.ReviewOrderReply, error) {
+	err := ob.repo.Update(ctx, &schema.Order{
+		Model: gorm.Model{
+			ID: uint(request.Id),
+		},
+		Status: request.Status,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &orderV1.ReviewOrderReply{}, nil
 }
 
 func NewOrderBiz(
