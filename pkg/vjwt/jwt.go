@@ -19,7 +19,7 @@ import (
 const secureKey = "2wer43@WER$#"
 
 type Claims struct {
-	UserId   string `json:"userId,omitempty"`
+	UserId   uint   `json:"userId,omitempty"`
 	Username string `json:"username,omitempty"`
 	Nonce    string `json:"nonce,omitempty"`
 	Tag      string `json:"tag,omitempty"`
@@ -27,7 +27,7 @@ type Claims struct {
 	jwt.RegisteredClaims
 }
 
-func GenerateJwtToken(id string, username string) (string, error) {
+func GenerateJwtToken(id uint, username string) (string, error) {
 	nowTime := time.Now()
 	expireTime := nowTime.Add(time.Duration(1) * time.Hour)
 	//expireTime := nowTime.Add(time.Duration(10) * time.Second)

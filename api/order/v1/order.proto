@@ -20,7 +20,12 @@ service Order {
 	rpc UpdateOrder (UpdateOrderRequest) returns (UpdateOrderReply);
 	rpc DeleteOrder (DeleteOrderRequest) returns (DeleteOrderReply);
 	rpc GetOrder (GetOrderRequest) returns (GetOrderReply);
-	rpc ListOrder (ListOrderRequest) returns (vine.api.Page);
+	rpc ListOrder (ListOrderRequest) returns (vine.api.Page) {
+		option (google.api.http) = {
+			post: "/order/list"
+			body: "*"
+		};
+	};
 
 	// 审核工单
 	rpc ReviewOrder (ReviewOrderRequest) returns (ReviewOrderReply) {
@@ -45,12 +50,16 @@ message DeleteOrderReply {}
 message GetOrderRequest {}
 message GetOrderReply {}
 
-message ListOrderRequest {}
+message ListOrderRequest {
+	int32 pageNum = 1;
+	int32 pageSize = 2;
+	string status = 3;
+}
 message ListOrderReply {}
 
 message ReviewOrderRequest {
 	uint32 id = 1;
-	int32 status = 2;
+	string status = 2;
 	string remark = 3;
 	string operator = 4;
 	string operatorName = 5;

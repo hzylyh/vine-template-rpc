@@ -14,10 +14,13 @@ import "gorm.io/gorm"
 type Order struct {
 	gorm.Model
 	Name string `json:"name,omitempty" gorm:"column:name;comment:工单名称"`
+	// 关联的用户
+	UserID uint `json:"userId,omitempty" gorm:"column:user_id;comment:用户ID"`
 	// 关联的设备
-	EquipmentID uint   `json:"equipment_id,omitempty" gorm:"column:equipment_id;comment:设备ID"`
+	EquipmentID uint   `json:"equipmentId,omitempty" gorm:"column:equipment_id;comment:设备ID"`
+	Priority    string `json:"priority" gorm:"column:priority;comment:工单优先级"`
 	Describe    string `json:"describe,omitempty" gorm:"column:describe;comment:工单描述"`
-	Status      int32  `json:"status,omitempty" gorm:"column:status;comment:工单状态"`
+	Status      string `json:"status,omitempty" gorm:"column:status;comment:工单状态 0:未完成 1:已完成"`
 }
 
 func (Order) TableName() string {

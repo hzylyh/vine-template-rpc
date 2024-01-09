@@ -17,7 +17,6 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 	"net/http"
 	"net/url"
-	"strconv"
 	"time"
 	v1 "vine-template-rpc/api/system/v1"
 	"vine-template-rpc/pkg/vjwt"
@@ -78,7 +77,7 @@ func (a *AuthBiz) Login(ctx context.Context, request *v1.LoginRequest) (*v1.Logi
 	if userInfo.Password != request.Password {
 		return nil, errors.New("用户名或密码错误")
 	}
-	token, err := vjwt.GenerateJwtToken(strconv.Itoa(int(userInfo.ID)), userInfo.Username)
+	token, err := vjwt.GenerateJwtToken(userInfo.ID, userInfo.Username)
 	if err != nil {
 		return nil, errors.New(fmt.Sprintf("系统内部错误，请联系管理员, %v", err))
 	}

@@ -16,6 +16,7 @@ import (
 	"github.com/redis/go-redis/v9"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	glogger "gorm.io/gorm/logger"
 	"vine-template-rpc/internal/conf"
 	"vine-template-rpc/internal/emonitor/data/schema"
 )
@@ -72,7 +73,7 @@ func NewGormDB(dialector *gorm.Dialector, logger log.Logger) *gorm.DB {
 	log := log.NewHelper(log.With(logger, "module", "system-service/data/gorm"))
 
 	db, err := gorm.Open(*dialector, &gorm.Config{
-		//Logger: logger.,
+		Logger: glogger.Default.LogMode(glogger.Info),
 	})
 	if err != nil {
 		log.Fatalf("failed opening connection to db: %v", err)

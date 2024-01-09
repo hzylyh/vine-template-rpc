@@ -16,6 +16,8 @@ import (
 	orderV1 "vine-template-rpc/api/order/v1"
 	"vine-template-rpc/internal/order/data/schema"
 	"vine-template-rpc/internal/page"
+	"vine-template-rpc/pkg/claim"
+	"vine-template-rpc/pkg/pagehelper"
 )
 
 type OrderRepo interface {
@@ -23,7 +25,7 @@ type OrderRepo interface {
 	Update(ctx context.Context, site *schema.Order) error
 	Delete(ctx context.Context, site *schema.Order) error
 	Get(ctx context.Context, site *schema.Order) (*schema.Order, error)
-	List(ctx context.Context, site *schema.Order) ([]*schema.Order, error)
+	List(ctx context.Context, site *schema.Order) ([]*Order, error)
 }
 
 type OrderHistoryRepo interface {
@@ -34,14 +36,29 @@ type OrderHistoryRepo interface {
 	//List(ctx context.Context, site *schema.Site) ([]*schema.Site, error)
 }
 
+type Order struct {
+	ID        uint   `json:"id,omitempty"`
+	Name      string `json:"name,omitempty"`
+	CreatedAt string `json:"createdAt,omitempty"`
+	Priority  int32  `json:"priority,omitempty"`
+	Lon       string `json:"lon,omitempty"`
+	Lat       string `json:"lat,omitempty"`
+	Status    string `json:"status,omitempty"`
+	SiteName  string `json:"siteName,omitempty"`
+	Describe  string `json:"describe,omitempty"`
+}
+
 type OrderBiz struct {
 	repo OrderRepo
 	log  *log.Helper
 }
 
+// AddOrder
 func (ob *OrderBiz) AddOrder(ctx context.Context, request *orderV1.AddOrderRequest) (*orderV1.AddOrderReply, error) {
+	claim := claim.GetUserInfoFromCtx(ctx)
 	orderInfo := &schema.Order{
-		Name: request.Name,
+		Name:   request.Name,
+		UserID: claim.UserId,
 	}
 	err := ob.repo.Add(ctx, orderInfo)
 	if err != nil {
@@ -63,7 +80,17 @@ func (ob *OrderBiz) GetOrder(ctx context.Context, request *orderV1.GetOrderReque
 }
 
 func (ob *OrderBiz) ListOrder(ctx context.Context, request *orderV1.ListOrderRequest) (*page.Page, error) {
-	return nil, nil
+	claim := claim.GetUserInfoFromCtx(ctx)
+	orderList, err := ob.repo.List(ctx, &schema.Order{
+		UserID: claim.UserId,
+		Status: request.Status,
+	})
+	if err != nil {
+		return nil, err
+	}
+	pageClient := pagehelper.NewMemPage(orderList)
+	resWithPage := pageClient.Paginator(request.PageNum, request.PageSize)
+	return resWithPage, nil
 }
 
 func (ob *OrderBiz) ReviewOrder(ctx context.Context, request *orderV1.ReviewOrderRequest) (*orderV1.ReviewOrderReply, error) {

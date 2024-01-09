@@ -37,8 +37,15 @@ func (s orderRepo) Get(ctx context.Context, order *schema.Order) (*schema.Order,
 	panic("还没实现我哦")
 }
 
-func (s orderRepo) List(ctx context.Context, order *schema.Order) ([]*schema.Order, error) {
-	panic("还没实现我哦")
+func (s orderRepo) List(ctx context.Context, order *schema.Order) (orders []*biz.Order, err error) {
+	err = s.data.gdb.Table("tb_order").
+		Select("tb_order.id, tb_order.name, date_format(tb_order.created_at, '%Y-%m-%d %H:%i:%s') as created_at," +
+			" tb_order.priority, tb_order.describe, tb_order.status, tb_equipment.lon, tb_equipment.lat").
+		Joins("left join tb_equipment on tb_order.equipment_id = tb_equipment.id").
+		Where(order).
+		Scan(&orders).
+		Error
+	return
 }
 
 func NewOrderRepo(data *Data, logger log.Logger) biz.OrderRepo {

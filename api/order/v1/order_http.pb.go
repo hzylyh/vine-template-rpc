@@ -10,6 +10,7 @@ import (
 	context "context"
 	http "github.com/go-kratos/kratos/v2/transport/http"
 	binding "github.com/go-kratos/kratos/v2/transport/http/binding"
+	page "vine-template-rpc/internal/page"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -20,10 +21,12 @@ var _ = binding.EncodeURL
 const _ = http.SupportPackageIsVersion1
 
 const OperationOrderAddOrder = "/api.order.v1.Order/AddOrder"
+const OperationOrderListOrder = "/api.order.v1.Order/ListOrder"
 const OperationOrderReviewOrder = "/api.order.v1.Order/ReviewOrder"
 
 type OrderHTTPServer interface {
 	AddOrder(context.Context, *AddOrderRequest) (*AddOrderReply, error)
+	ListOrder(context.Context, *ListOrderRequest) (*page.Page, error)
 	// ReviewOrder 审核工单
 	ReviewOrder(context.Context, *ReviewOrderRequest) (*ReviewOrderReply, error)
 }
@@ -31,6 +34,7 @@ type OrderHTTPServer interface {
 func RegisterOrderHTTPServer(s *http.Server, srv OrderHTTPServer) {
 	r := s.Route("/")
 	r.POST("/order/add", _Order_AddOrder0_HTTP_Handler(srv))
+	r.POST("/order/list", _Order_ListOrder0_HTTP_Handler(srv))
 	r.POST("/order/review", _Order_ReviewOrder0_HTTP_Handler(srv))
 }
 
@@ -52,6 +56,28 @@ func _Order_AddOrder0_HTTP_Handler(srv OrderHTTPServer) func(ctx http.Context) e
 			return err
 		}
 		reply := out.(*AddOrderReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Order_ListOrder0_HTTP_Handler(srv OrderHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ListOrderRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationOrderListOrder)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ListOrder(ctx, req.(*ListOrderRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*page.Page)
 		return ctx.Result(200, reply)
 	}
 }
@@ -80,6 +106,7 @@ func _Order_ReviewOrder0_HTTP_Handler(srv OrderHTTPServer) func(ctx http.Context
 
 type OrderHTTPClient interface {
 	AddOrder(ctx context.Context, req *AddOrderRequest, opts ...http.CallOption) (rsp *AddOrderReply, err error)
+	ListOrder(ctx context.Context, req *ListOrderRequest, opts ...http.CallOption) (rsp *page.Page, err error)
 	ReviewOrder(ctx context.Context, req *ReviewOrderRequest, opts ...http.CallOption) (rsp *ReviewOrderReply, err error)
 }
 
@@ -96,6 +123,19 @@ func (c *OrderHTTPClientImpl) AddOrder(ctx context.Context, in *AddOrderRequest,
 	pattern := "/order/add"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationOrderAddOrder))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *OrderHTTPClientImpl) ListOrder(ctx context.Context, in *ListOrderRequest, opts ...http.CallOption) (*page.Page, error) {
+	var out page.Page
+	pattern := "/order/list"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationOrderListOrder))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {

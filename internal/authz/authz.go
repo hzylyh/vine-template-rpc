@@ -77,6 +77,7 @@ p, *, auth, read, /api.alarm.v1.Alarm/Trigger
 p, *, *, read, /api.alarm.v1.Alarm/AddAlarmRule
 
 p, *, auth, read, /api.order.v1.Order/AddOrder
+p, *, auth, read, /api.order.v1.Order/ListOrder
 p, *, auth, read, /api.order.v1.Order/ReviewOrder
 `
 
