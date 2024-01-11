@@ -11,8 +11,10 @@ package biz
 
 import (
 	"context"
+	"github.com/casbin/casbin/v2"
 	"github.com/go-kratos/kratos/v2/log"
 	"gorm.io/gorm"
+	"strconv"
 	orderV1 "vine-template-rpc/api/order/v1"
 	"vine-template-rpc/internal/order/data/schema"
 	"vine-template-rpc/internal/page"
@@ -49,8 +51,9 @@ type Order struct {
 }
 
 type OrderBiz struct {
-	repo OrderRepo
-	log  *log.Helper
+	repo     OrderRepo
+	enforcer *casbin.Enforcer
+	log      *log.Helper
 }
 
 // AddOrder
@@ -80,13 +83,25 @@ func (ob *OrderBiz) GetOrder(ctx context.Context, request *orderV1.GetOrderReque
 }
 
 func (ob *OrderBiz) ListOrder(ctx context.Context, request *orderV1.ListOrderRequest) (*page.Page, error) {
-	claim := claim.GetUserInfoFromCtx(ctx)
+	claimInfo := claim.GetUserInfoFromCtx(ctx)
 	orderList, err := ob.repo.List(ctx, &schema.Order{
-		UserID: claim.UserId,
+		UserID: claimInfo.UserId,
 		Status: request.Status,
 	})
+	// 具备审批权限的，查询待审批工单，暂未按照部门进行设计
+	hasPolicy, err := ob.enforcer.Enforce(strconv.Itoa(int(claimInfo.UserId)), "auth", "approve", "order")
 	if err != nil {
 		return nil, err
+	}
+	if hasPolicy {
+		list, err := ob.repo.List(ctx, &schema.Order{
+			UserID: claimInfo.UserId,
+			Status: "0",
+		})
+		if err != nil {
+			return nil, err
+		}
+		orderList = append(list, orderList...)
 	}
 	pageClient := pagehelper.NewMemPage(orderList)
 	resWithPage := pageClient.Paginator(request.PageNum, request.PageSize)
@@ -94,12 +109,16 @@ func (ob *OrderBiz) ListOrder(ctx context.Context, request *orderV1.ListOrderReq
 }
 
 func (ob *OrderBiz) ReviewOrder(ctx context.Context, request *orderV1.ReviewOrderRequest) (*orderV1.ReviewOrderReply, error) {
-	err := ob.repo.Update(ctx, &schema.Order{
+	orderInfo, err := ob.repo.Get(ctx, &schema.Order{
 		Model: gorm.Model{
 			ID: uint(request.Id),
 		},
-		Status: request.Status,
 	})
+	if err != nil {
+		return nil, err
+	}
+	orderInfo.Status = "1"
+	err = ob.repo.Update(ctx, orderInfo)
 	if err != nil {
 		return nil, err
 	}
@@ -108,10 +127,12 @@ func (ob *OrderBiz) ReviewOrder(ctx context.Context, request *orderV1.ReviewOrde
 
 func NewOrderBiz(
 	repo OrderRepo,
+	enforcer *casbin.Enforcer,
 	logger log.Logger,
 ) *OrderBiz {
 	return &OrderBiz{
-		repo: repo,
-		log:  log.NewHelper(log.With(logger, "module", "biz/rule")),
+		repo:     repo,
+		enforcer: enforcer,
+		log:      log.NewHelper(log.With(logger, "module", "biz/rule")),
 	}
 }

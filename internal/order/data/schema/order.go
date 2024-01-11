@@ -18,9 +18,9 @@ type Order struct {
 	UserID uint `json:"userId,omitempty" gorm:"column:user_id;comment:用户ID"`
 	// 关联的设备
 	EquipmentID uint   `json:"equipmentId,omitempty" gorm:"column:equipment_id;comment:设备ID"`
-	Priority    string `json:"priority" gorm:"column:priority;comment:工单优先级"`
+	Priority    string `json:"priority" gorm:"default:0;column:priority;comment:工单优先级"`
 	Describe    string `json:"describe,omitempty" gorm:"column:describe;comment:工单描述"`
-	Status      string `json:"status,omitempty" gorm:"column:status;comment:工单状态 0:未完成 1:已完成"`
+	Status      string `json:"status,omitempty" gorm:"default:0;column:status;comment:工单状态 0:待审核 1:待处理 2:已完成 3:延期 4:已取消"`
 }
 
 func (Order) TableName() string {

@@ -67,7 +67,7 @@ func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*
 		return nil, nil, err
 	}
 	orderRepo := data3.NewOrderRepo(data5, logger)
-	orderBiz := biz4.NewOrderBiz(orderRepo, logger)
+	orderBiz := biz4.NewOrderBiz(orderRepo, enforcer, logger)
 	orderService := service4.NewOrderService(orderBiz)
 	grpcServer := server.NewGRPCServer(confServer, systemService, eMonitorService, alarmService, orderService, logger, enforcer)
 	httpServer := server.NewHTTPServer(confServer, systemService, eMonitorService, alarmService, orderService, logger, enforcer)

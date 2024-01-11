@@ -38,7 +38,7 @@ g = _, _
 e = some(where (p.eft == allow))
 
 [matchers]
-m = (r.sub == p.sub || p.sub == "*") && (r.sub2 == p.sub2 || p.sub2 == "*") && r.act == p.act && r.obj == p.obj
+m = (g(r.sub, p.sub) || p.sub == "*") && (r.sub2 == p.sub2 || p.sub2 == "*") && (r.act == p.act || p.act == "*") && keyMatch(r.obj, p.obj)
 `
 	a, err := entadapter.NewAdapter(c.Database.Driver, fmt.Sprintf("%s", c.Database.Source)) // Your driver and data source.
 	if err != nil {
@@ -79,6 +79,10 @@ p, *, *, read, /api.alarm.v1.Alarm/AddAlarmRule
 p, *, auth, read, /api.order.v1.Order/AddOrder
 p, *, auth, read, /api.order.v1.Order/ListOrder
 p, *, auth, read, /api.order.v1.Order/ReviewOrder
+
+g, 1, admin
+g, 2, normal_user
+p, admin, auth, approve, order
 `
 
 	sa := stringadapter.NewAdapter(ruleText)
