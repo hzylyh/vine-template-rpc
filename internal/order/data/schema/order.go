@@ -13,7 +13,8 @@ import "gorm.io/gorm"
 
 type Order struct {
 	gorm.Model
-	Name string `json:"name,omitempty" gorm:"column:name;comment:工单名称"`
+	Name string `json:"name,omitempty" gorm:"column:name;comment:工单名称 0:故障工单 1:计划工单"`
+	Type string `json:"type,omitempty" gorm:"column:type;comment:工单类型"`
 	// 关联的用户
 	UserID uint `json:"userId,omitempty" gorm:"column:user_id;comment:用户ID"`
 	// 关联的设备

@@ -40,9 +40,10 @@ func (s orderRepo) Get(ctx context.Context, query *schema.Order) (order *schema.
 
 func (s orderRepo) List(ctx context.Context, order *schema.Order) (orders []*biz.Order, err error) {
 	db := s.data.gdb.Table("tb_order").
-		Select("tb_order.id, tb_order.name, date_format(tb_order.created_at, '%Y-%m-%d %H:%i:%s') as created_at," +
-			" tb_order.priority, tb_order.describe, tb_order.status, tb_equipment.lon, tb_equipment.lat").
-		Joins("left join tb_equipment on tb_order.equipment_id = tb_equipment.id")
+		Select("tb_order.id, tb_order.name, tb_order.type, date_format(tb_order.created_at, '%Y-%m-%d %H:%i:%s') as created_at," +
+			" tb_user.username, tb_order.user_id, tb_order.equipment_id, tb_order.priority, tb_order.describe, tb_order.status, tb_equipment.lon, tb_equipment.lat").
+		Joins("left join tb_equipment on tb_order.equipment_id = tb_equipment.id").
+		Joins("left join tb_user on tb_order.user_id = tb_user.id")
 	if order.Status == "" {
 		db = db.Where(order).Not("tb_order.status", "0")
 	} else {

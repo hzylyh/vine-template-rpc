@@ -41,13 +41,16 @@ type OrderHistoryRepo interface {
 type Order struct {
 	ID        uint   `json:"id,omitempty"`
 	Name      string `json:"name,omitempty"`
+	Type      string `json:"type,omitempty"`
 	CreatedAt string `json:"createdAt,omitempty"`
-	Priority  int32  `json:"priority,omitempty"`
-	Lon       string `json:"lon,omitempty"`
-	Lat       string `json:"lat,omitempty"`
-	Status    string `json:"status,omitempty"`
-	SiteName  string `json:"siteName,omitempty"`
-	Describe  string `json:"describe,omitempty"`
+	Username  string `json:"username,omitempty"`
+	//EquipmentID string `json:"equipmentId,omitempty"`
+	Priority int32  `json:"priority,omitempty"`
+	Lon      string `json:"lon,omitempty"`
+	Lat      string `json:"lat,omitempty"`
+	Status   string `json:"status,omitempty"`
+	SiteName string `json:"siteName,omitempty"`
+	Describe string `json:"describe,omitempty"`
 }
 
 type OrderBiz struct {
