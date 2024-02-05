@@ -561,11 +561,11 @@ components:
         api.alarm.v1.AddAlarmRuleRequest:
             type: object
             properties:
-                position:
+                info:
                     type: string
-                temperature:
-                    type: integer
-                    format: int32
+                    description: |-
+                        string position = 1;
+                        	int32 temperature = 2;
         api.alarm.v1.TriggerReply:
             type: object
             properties: {}
