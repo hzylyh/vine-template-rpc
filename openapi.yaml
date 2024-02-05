@@ -3,45 +3,9 @@
 
 openapi: 3.0.3
 info:
-    title: ""
+    title: System API
     version: 0.0.1
 paths:
-    /alarm/rule/add:
-        post:
-            tags:
-                - Alarm
-            operationId: Alarm_AddAlarmRule
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.alarm.v1.AddAlarmRuleRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.alarm.v1.AddAlarmRuleReply'
-    /alarm/trigger:
-        post:
-            tags:
-                - Alarm
-            operationId: Alarm_Trigger
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.alarm.v1.TriggerRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.alarm.v1.TriggerReply'
     /auth/login:
         post:
             tags:
@@ -156,61 +120,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/api.system.v1.UpdateDeptReply'
-    /order/add:
-        post:
-            tags:
-                - Order
-            operationId: Order_AddOrder
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.order.v1.AddOrderRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.order.v1.AddOrderReply'
-    /order/list:
-        post:
-            tags:
-                - Order
-            operationId: Order_ListOrder
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.order.v1.ListOrderRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/vine.api.Page'
-    /order/review:
-        post:
-            tags:
-                - Order
-            description: 审核工单
-            operationId: Order_ReviewOrder
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.order.v1.ReviewOrderRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.order.v1.ReviewOrderReply'
     /perm/add:
         post:
             tags:
@@ -376,96 +285,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/api.system.v1.UpdateRoleReply'
-    /site/add:
-        post:
-            tags:
-                - Emonitor
-            operationId: Emonitor_AddSite
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.emonitor.v1.AddSiteRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.emonitor.v1.AddSiteReply'
-    /site/delete:
-        post:
-            tags:
-                - Emonitor
-            operationId: Emonitor_DeleteSite
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.emonitor.v1.DeleteSiteRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.emonitor.v1.DeleteSiteReply'
-    /site/detail:
-        post:
-            tags:
-                - Emonitor
-            operationId: Emonitor_GetSite
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.emonitor.v1.GetSiteRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.emonitor.v1.GetSiteReply'
-    /site/list:
-        post:
-            tags:
-                - Emonitor
-            operationId: Emonitor_ListSite
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.emonitor.v1.ListSiteRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/vine.api.Page'
-    /site/update:
-        post:
-            tags:
-                - Emonitor
-            operationId: Emonitor_UpdateSite
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.emonitor.v1.UpdateSiteRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.emonitor.v1.UpdateSiteReply'
     /user/add:
         post:
             tags:
@@ -553,133 +372,6 @@ paths:
                                 $ref: '#/components/schemas/api.system.v1.UpdateUserReply'
 components:
     schemas:
-        api.alarm.v1.AddAlarmRuleReply:
-            type: object
-            properties:
-                message:
-                    type: string
-        api.alarm.v1.AddAlarmRuleRequest:
-            type: object
-            properties:
-                info:
-                    type: string
-                    description: |-
-                        string position = 1;
-                        	int32 temperature = 2;
-        api.alarm.v1.TriggerReply:
-            type: object
-            properties: {}
-        api.alarm.v1.TriggerRequest:
-            type: object
-            properties: {}
-        api.emonitor.v1.AddSiteReply:
-            type: object
-            properties:
-                id:
-                    type: string
-        api.emonitor.v1.AddSiteRequest:
-            type: object
-            properties:
-                name:
-                    type: string
-                type:
-                    type: string
-                dept:
-                    type: string
-                owner:
-                    type: string
-                mn:
-                    type: string
-                remark:
-                    type: string
-                lon:
-                    type: string
-                lat:
-                    type: string
-                status:
-                    type: integer
-                    format: int32
-                address:
-                    type: string
-                lastServiceTime:
-                    type: string
-                creator:
-                    type: string
-        api.emonitor.v1.DeleteSiteReply:
-            type: object
-            properties: {}
-        api.emonitor.v1.DeleteSiteRequest:
-            type: object
-            properties: {}
-        api.emonitor.v1.GetSiteReply:
-            type: object
-            properties: {}
-        api.emonitor.v1.GetSiteRequest:
-            type: object
-            properties: {}
-        api.emonitor.v1.ListSiteRequest:
-            type: object
-            properties:
-                pageNum:
-                    type: integer
-                    format: int32
-                pageSize:
-                    type: integer
-                    format: int32
-        api.emonitor.v1.UpdateSiteReply:
-            type: object
-            properties: {}
-        api.emonitor.v1.UpdateSiteRequest:
-            type: object
-            properties: {}
-        api.order.v1.AddOrderReply:
-            type: object
-            properties: {}
-        api.order.v1.AddOrderRequest:
-            type: object
-            properties:
-                name:
-                    type: string
-        api.order.v1.ListOrderRequest:
-            type: object
-            properties:
-                pageNum:
-                    type: integer
-                    format: int32
-                pageSize:
-                    type: integer
-                    format: int32
-                status:
-                    type: string
-        api.order.v1.ReviewOrderReply:
-            type: object
-            properties: {}
-        api.order.v1.ReviewOrderRequest:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    format: uint32
-                status:
-                    type: string
-                remark:
-                    type: string
-                operator:
-                    type: string
-                operatorName:
-                    type: string
-                operatorPhone:
-                    type: string
-                operatorEmail:
-                    type: string
-                operatorRemark:
-                    type: string
-                operatorTime:
-                    type: string
-                operatorIp:
-                    type: string
-                operatorLocation:
-                    type: string
         api.system.v1.AddDeptReply:
             type: object
             properties: {}
@@ -851,7 +543,4 @@ components:
                     items:
                         type: object
 tags:
-    - name: Alarm
-    - name: Emonitor
-    - name: Order
     - name: System

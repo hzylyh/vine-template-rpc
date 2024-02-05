@@ -6,12 +6,9 @@
 package main
 
 import (
-	"vine-template-rpc/internal/alarm"
 	"vine-template-rpc/internal/authz"
 	"vine-template-rpc/internal/conf"
 
-	emonitorService "vine-template-rpc/internal/emonitor"
-	orderService "vine-template-rpc/internal/order"
 	"vine-template-rpc/internal/server"
 	systemService "vine-template-rpc/internal/system"
 
@@ -26,9 +23,6 @@ func wireApp(*conf.Server, *conf.Data, log.Logger) (*kratos.App, func(), error) 
 		authz.AuthProviderSet,
 		server.ProviderSet,
 		systemService.SystemProviderSet,
-		emonitorService.EMonitorProviderSet,
-		alarm.AlarmProviderSet,
-		orderService.OrderProviderSet,
 		newApp,
 	),
 	)
